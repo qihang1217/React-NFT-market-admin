@@ -4,7 +4,7 @@ import os
 import time
 import configs
 from flask import Flask, send_from_directory, request, jsonify, render_template, current_app
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, SignatureExpired, BadSignature
+from itsdangrous import TimedJSONWebSignatureSerializer as Serializer, SignatureExpired, BadSignature
 from flask_cors import CORS
 import MysqlUtil as DBUtil
 from flask_sqlalchemy import SQLAlchemy
