@@ -12,7 +12,7 @@ import {
 import { reqCategorys, reqAddUpdateProduct } from '../../api'
 import PicturesWall from './pictures-wall'
 import LinkButton from '../../components/link-button'
-import memoryUtils from '../../utils/memoryUtils'
+import memoryUtils from '../../Utils/memoryUtils'
 import RichTextEditor from './rich-text-editor'
 
 const Item = Form.Item
@@ -182,5 +182,5 @@ class ProductAddUpdate extends Component {
   }
 }
 
-export default Form.create()(ProductAddUpdate)
+export default ProductAddUpdate
 

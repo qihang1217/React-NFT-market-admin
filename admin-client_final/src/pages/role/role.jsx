@@ -8,11 +8,11 @@ import {
 } from 'antd'
 
 import LinkButton from '../../components/link-button'
-import { PAGE_SIZE } from "../../utils/Constants"
+import { PAGE_SIZE } from "../../Utils/Constants"
 import AddForm from './add-form'
 import AuthForm from './auth-form'
-import { formateDate } from '../../utils/dateUtils'
-import memoryUtils from '../../utils/memoryUtils'
+import { formateDate } from '../../Utils/dateUtils'
+import memoryUtils from '../../Utils/memoryUtils'
 import { reqAddRole, reqUpdateRole, reqRoles } from '../../api'
 
 /*

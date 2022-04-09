@@ -5,7 +5,7 @@ import { Menu, Icon } from 'antd'
 import menuList from '../../config/menuConfig'
 import logo from '../../assets/images/logo.png'
 import './index.less'
-import memoryUtils from '../../utils/memoryUtils';
+import memoryUtils from '../../Utils/memoryUtils';
 
 const { SubMenu } = Menu
 

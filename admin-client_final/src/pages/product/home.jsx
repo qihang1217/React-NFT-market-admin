@@ -8,12 +8,12 @@ import {
   Table,
   message
 } from 'antd'
-import throttle from 'lodash.throttle'
+import throttle from 'lodash/throttle'
 
 import { reqProducts, reqSearchProducts, reqUpdateStatus } from '../../api'
 import LinkButton from '../../components/link-button'
-import { PAGE_SIZE } from '../../utils/Constants'
-import memoryUtils from '../../utils/memoryUtils';
+import { PAGE_SIZE } from '../../Utils/Constants'
+import memoryUtils from '../../Utils/memoryUtils';
 
 const Option = Select.Option
 /* 

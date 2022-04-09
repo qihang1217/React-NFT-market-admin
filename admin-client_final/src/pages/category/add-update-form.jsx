@@ -45,4 +45,4 @@ class AddUpdateForm extends Component {
   }
 }
 
-export default Form.create()(AddUpdateForm)
+export default AddUpdateForm

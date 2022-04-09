@@ -45,4 +45,4 @@ class AddForm extends PureComponent {
   }
 }
 
-export default AddForm = Form.create()(AddForm)
+export default AddForm

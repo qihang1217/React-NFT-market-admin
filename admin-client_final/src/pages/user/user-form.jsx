@@ -110,4 +110,4 @@ class UserForm extends PureComponent {
   }
 }
 
-export default Form.create()(UserForm)
+export default UserForm

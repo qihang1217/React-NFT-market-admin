@@ -10,7 +10,7 @@ import { message } from 'antd';
 const BASE = ''
 
 // 请求登陆
-export const reqLogin = (username, password) =>  ajax.post(BASE + '/login', {username, password})
+export const reqLogin = (username, password) =>  ajax.post(BASE + '/Login', {username, password})
 
 // 发送jsonp请求得到天气信息
 export const reqWeather = (city) => {

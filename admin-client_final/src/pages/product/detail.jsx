@@ -6,8 +6,8 @@ import {
 } from 'antd'
 
 import LinkButton from '../../components/link-button'
-import memoryUtils from '../../utils/memoryUtils'
-import { BASE_IMG } from '../../utils/Constants'
+import memoryUtils from '../../Utils/memoryUtils'
+import { BASE_IMG } from '../../Utils/Constants'
 import {reqCategory, reqProduct} from '../../api'
 
 const Item = List.Item

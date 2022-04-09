@@ -4,10 +4,10 @@ import { Modal } from 'antd'
 
 import LinkButton from '../../components/link-button'
 import {reqWeather} from '../../api'
-import { formateDate } from '../../utils/dateUtils'
+import { formateDate } from '../../Utils/dateUtils'
 import menuList from '../../config/menuConfig'
-import memoryUtils from '../../utils/memoryUtils'
-import storageUtils from '../../utils/storageUtils'
+import memoryUtils from '../../Utils/memoryUtils'
+import storageUtils from '../../Utils/storageUtils'
 
 import './index.less'
 
@@ -35,7 +35,7 @@ class Header extends Component {
         // 内存中的
         memoryUtils.user = {}
         // 跳转到登陆界面
-        this.props.history.replace('/login')
+        this.props.history.replace('/Login')
       },
       onCancel() {
         console.log('Cancel');

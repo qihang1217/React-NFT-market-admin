@@ -6,7 +6,7 @@ import {
   Modal,
   message
 } from 'antd'
-import {formateDate} from "../../utils/dateUtils"
+import {formateDate} from "../../Utils/dateUtils"
 import LinkButton from "../../components/link-button/index"
 import {reqDeleteUser, reqUsers, reqAddOrUpdateUser} from "../../api/index";
 import UserForm from './user-form'
