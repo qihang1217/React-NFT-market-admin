@@ -1,7 +1,8 @@
 # coding=utf-8
 import json
+import math
 import configs
-from flask import Flask,request, jsonify, current_app
+from flask import Flask, request, jsonify, current_app
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, SignatureExpired, BadSignature
 from flask_cors import CORS
 import MysqlUtil as DBUtil
@@ -17,7 +18,7 @@ db.init_app(app)
 cors = CORS(app, supports_credentials=True)
 
 # api接口前缀
-apiPrefix = '/api/v1/'
+apiPrefix = '/api/admin/'
 
 
 # # show photo
@@ -78,32 +79,87 @@ def login_user():
     # print('user_data',user_data)
     token = user_data.get('token', None)
     _token = verify_auth_token(token)
-    response = DBUtil.checkAdmins(user_data)
-    success_flag=False
+    response = DBUtil.check_admins(user_data)
+    success_flag = False
     if _token == 'success':
         response['token_message'] = _token
-        success_flag=True
+        success_flag = True
     elif response['message'] == '验证成功':
         # token并没有验证通过,但账号密码验证通过则生成新的token
         new_token = generate_auth_token(user_data)
         response['token_message'] = _token
         response['token'] = new_token
-        success_flag=True
+        success_flag = True
     if success_flag:
         # 登陆成功
         # 获取用户数据中的role_id
-        role_id=response.get('role_id')
+        role_id = response.get('role_id')
         if role_id:
             # 查询其权限
-            res=DBUtil.getOwnRoles(role_id)
-            response['data'][0]['role']=json.loads(res['menus'])
+            res = DBUtil.get_own_roles(role_id)
+            response['data'][0]['role'] = json.loads(res['menus'])
         else:
-            response['data'][0]['role']=[]
-    response['responseCode'] = 200
-    print('response',response)
+            response['data'][0]['role'] = []
+    # print('response',response)
     return jsonify(response)
 
 
+########## NFT分页列表接口
+@app.route(apiPrefix + 'manage/product/list', methods=['GET'], strict_slashes=False)
+def get_product_list():
+    args = request.args.to_dict()
+    page_num = int(args.get('pageNum'))
+    page_size = int(args.get('pageSize'))
+    res, status = DBUtil.get_products()
+    total = len(res)
+    pages = math.ceil((total + page_size - 1) / page_size)
+    data_dict = {'pageNum': page_num, 'pageSize': page_size, 'list': res, 'total': total, 'pages': pages}
+    response = {
+        'status': status,
+        'data': data_dict,
+    }
+    return jsonify(response)
+
+
+@app.route(apiPrefix + '/manage/product/search', methods=['GET'], strict_slashes=False)
+def search_product_list():
+    args = request.args.to_dict()
+    print(args)
+    page_num = int(args.get('pageNum'))
+    page_size = int(args.get('pageSize'))
+    search_name=''
+    search_type=''
+    for item in args.keys():
+        if not item in ['pageSize','pageNum']:
+            search_type=item
+            search_name=args.get(item)
+    res, status=DBUtil.search_products(search_type,search_name)
+    total = len(res)
+    pages = math.ceil((total + page_size - 1) / page_size)
+    data_dict = {'pageNum': page_num, 'pageSize': page_size, 'list': res, 'total': total, 'pages': pages}
+    response = {
+        'status': status,
+        'data': data_dict,
+    }
+    return jsonify(response)
+
+
+
+
+@app.route(apiPrefix + '/manage/product/updateStatus', methods=['POST'], strict_slashes=False)
+def update_product_status():
+    json_str = request.get_data(as_text=True)
+    req_data = json.loads(json_str)
+    pass_status = req_data.get('pass_status')
+    product_id = req_data.get('product_id')
+    status = DBUtil.update_product_status(product_id, pass_status)
+    response = {
+        'status': status,
+    }
+    return jsonify(response)
+
+
+# 校验是否登陆
 ########## Staff接口
 
 # @app.route(apiPrefix + 'updateStaff', methods=['POST'])

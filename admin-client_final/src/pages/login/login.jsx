@@ -9,6 +9,7 @@ import storageUtils from '../../Utils/storageUtils'
 import HttpUtil from "../../Utils/HttpUtil";
 import ApiUtil from "../../Utils/ApiUtil";
 import memoryUtils from "../../Utils/memoryUtils";
+import {reqLogin} from "../../api";
 
 class Login extends Component {
     constructor(props) {
@@ -21,31 +22,27 @@ class Login extends Component {
         let md5 = require("../../Utils/md5.js"); //引入md5加密模块
         e.password = md5(e.password);
         e['token'] = storageUtils.getToken()
-        console.log(e)
-        HttpUtil.post(ApiUtil.API_LOGIN, e).then(function (response) {
-            console.log(response);
-            if (response.responseCode === 200 && response.message === '验证成功') {
-                message.success('登陆成功~');
-                if (response.token_message !== 'success') {
-                    storageUtils.saveToken(response.token)
-                }
-                // 将user信息保存到local
-                const user = response.data[0]
-                console.log(user)
-                // localStorage.setItem('user_key', JSON.stringify(User))
-                storageUtils.saveUser(user)
-                //页面跳转
-                window.location.href='/'
-            } else if (response.responseCode === 200 && response.message === '用户不存在') {
-                message.error('账号或密码错误,请稍后重试~');
-            } else if (response.responseCode === 200 && response.message === '验证失败') {
-                message.error('账号或密码错误,请稍后重试~');
-            } else {
-                message.error('登陆错误,请稍后重试~');
+        const response=await reqLogin(e)
+        console.log(response);
+        if (response.status===0 && response.message === '验证成功') {
+            message.success('登陆成功~');
+            if (response.token_message !== 'success') {
+                storageUtils.saveToken(response.token)
             }
-        }).catch(function (error) {
-            // console.log(error);
-        });
+            // 将user信息保存到local
+            const user = response.data[0]
+            console.log(user)
+            // localStorage.setItem('user_key', JSON.stringify(User))
+            storageUtils.saveUser(user)
+            //页面跳转
+            window.location.href='/'
+        } else if (response.message === '用户不存在') {
+            message.error('账号或密码错误,请稍后重试~');
+        } else if (response.message === '验证失败') {
+            message.error('账号或密码错误,请稍后重试~');
+        } else {
+            message.error('登陆错误,请稍后重试~');
+        }
     }
 
     render() {

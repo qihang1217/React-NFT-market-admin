@@ -4,13 +4,14 @@
 */
 import ajax from './ajax'
 import ApiUtil from "../Utils/ApiUtil";
-import {message} from "antd";
+import HttpUtil from "../Utils/HttpUtil";
 
-// const BASE = 'http://localhost:5000'
 const BASE = ''
 
 // 请求登陆
-export const reqLogin = (username, password) => ajax.post(BASE + '/Login', {username, password})
+export const reqLogin = (e) => {
+    return HttpUtil.post(ApiUtil.API_LOGIN, e)
+}
 
 // const persons/personList/personArr = [{}, {}]
 
@@ -40,49 +41,35 @@ export const reqCategory = (categoryId) => ajax(BASE + '/manage/Category/info', 
     }
 })
 
-/* 获取商品分页列表 */
-export const reqProducts = (pageNum, pageSize) => ajax(BASE + '/manage/Product/list', {
-    params: { // 包含所有query参数的对象
-        pageNum,
-        pageSize
-    }
-})
+/* 获取NFT分页列表 */
+export const reqProducts = (pageNum, pageSize) => {
+    return HttpUtil.get(ApiUtil.API_PRODUCT_LIST + `?pageNum=${pageNum}&pageSize=${pageSize}`)
+}
 
-/* 根据Name/desc搜索产品分页列表 */
-export const reqSearchProducts = ({
-                                      pageNum,
-                                      pageSize,
-                                      searchName,
-                                      searchType // 它的值是'productName'或者'productDesc'
-                                  }) => ajax(BASE + '/manage/Product/search', {
-    // method: 'GET',
-    params: {
-        pageNum,
-        pageSize,
-        [searchType]: searchName,
-    }
-})
 
-/* 根据商品ID获取商品 */
+/* 根据Name/desc搜索NFT分页列表 */
+export const reqSearchProducts = ({pageNum,pageSize,searchName,searchType})=> {
+    return HttpUtil.get(ApiUtil.API_SEARCH_PRODUCT_LIST + `?pageNum=${pageNum}&pageSize=${pageSize}&${searchType}=${searchName}`)
+}
+
+
+/* 根据NFT ID获取NFT */
 export const reqProduct = (productId) => ajax(BASE + '/manage/Product/info', {
     params: {
         productId
     }
 })
 
-/* 对商品进行上架/下架处理 */
-export const reqUpdateStatus = (productId, status) => ajax(BASE + '/manage/Product/updateStatus', {
-    method: 'POST',
-    data: {
-        productId,
-        status
-    }
-})
+/* 对NFT进行通过/不通过处理 */
+export const reqUpdateStatus = (product_id, pass_status) => {
+    return HttpUtil.post(ApiUtil.API_PRODUCT_UPDATE_STATUS, {product_id, pass_status})
+}
+
 
 /* 删除图片 */
 export const reqDeleteImg = (name) => ajax.post(BASE + '/manage/img/delete', {name})
 
-/* 添加/修改商品 */
+/* 添加/修改NFT */
 export const reqAddUpdateProduct = (product) => ajax.post(
     BASE + '/manage/Product/' + (product._id ? 'update' : 'add'),
     product
