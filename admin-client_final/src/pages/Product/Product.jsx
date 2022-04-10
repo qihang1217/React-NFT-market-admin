@@ -4,11 +4,11 @@ import {
   Route,
   Redirect
 } from 'react-router-dom'
-import './product.less'
+import './Product.less'
 
-import ProductHome from './home'
-import ProductAddUpdate from './add-update'
-import ProductDetail from './detail'
+import ProductHome from './Home'
+import ProductAddUpdate from './Add_Update'
+import ProductDetail from './Detail'
 
 /**
  * 商品管理

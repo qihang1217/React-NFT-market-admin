@@ -13,7 +13,7 @@ function getBase64(file) {
   });
 }
 
-export default class PicturesWall extends React.Component {
+export default class Pictures_Wall extends React.Component {
 
   static propTypes = {
     imgs: PropTypes.array

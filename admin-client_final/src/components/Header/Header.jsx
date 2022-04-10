@@ -3,7 +3,6 @@ import { withRouter } from 'react-router-dom'
 import { Modal } from 'antd'
 
 import LinkButton from '../Link_Button/Link_Button'
-import {reqWeather} from '../../api'
 import { formateDate } from '../../Utils/dateUtils'
 import menuList from '../../config/menuConfig'
 import memoryUtils from '../../Utils/memoryUtils'

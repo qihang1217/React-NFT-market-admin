@@ -44,11 +44,11 @@ export default class ProductHome extends Component {
   initColumns = () => {
     this.columns = [
       {
-        title: '商品名称',
+        title: 'NFT名称',
         dataIndex: 'name'
       },
       {
-        title: '商品描述',
+        title: '描述',
         dataIndex: 'desc'
       },
       {
@@ -86,7 +86,7 @@ export default class ProductHome extends Component {
               onClick={() => {
                 // 在内存中保存product
                 memoryUtils.product = product
-                this.props.history.push('/product/detail/' + product._id)
+                this.props.history.push('/Product/detail/' + product._id)
               }}
             >
               详情
@@ -95,7 +95,7 @@ export default class ProductHome extends Component {
               onClick={() => {
                 // 在内存中保存product
                 memoryUtils.product = product
-                this.props.history.push('/product/addupdate')
+                this.props.history.push('/Product/addupdate')
               }}
             >修改
             
@@ -170,7 +170,7 @@ export default class ProductHome extends Component {
     const extra = (
       <Button type="primary" onClick={() => {
         memoryUtils.product = {}
-        this.props.history.push('/product/addupdate')
+        this.props.history.push('/Product/addupdate')
       }}>
         <Icon type="plus" />
         添加商品

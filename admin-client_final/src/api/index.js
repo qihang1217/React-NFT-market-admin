@@ -41,7 +41,7 @@ export const reqCategory = (categoryId) => ajax(BASE + '/manage/Category/info', 
 })
 
 /* 获取商品分页列表 */
-export const reqProducts = (pageNum, pageSize) => ajax(BASE + '/manage/product/list', {
+export const reqProducts = (pageNum, pageSize) => ajax(BASE + '/manage/Product/list', {
     params: { // 包含所有query参数的对象
         pageNum,
         pageSize
@@ -54,7 +54,7 @@ export const reqSearchProducts = ({
                                       pageSize,
                                       searchName,
                                       searchType // 它的值是'productName'或者'productDesc'
-                                  }) => ajax(BASE + '/manage/product/search', {
+                                  }) => ajax(BASE + '/manage/Product/search', {
     // method: 'GET',
     params: {
         pageNum,
@@ -64,14 +64,14 @@ export const reqSearchProducts = ({
 })
 
 /* 根据商品ID获取商品 */
-export const reqProduct = (productId) => ajax(BASE + '/manage/product/info', {
+export const reqProduct = (productId) => ajax(BASE + '/manage/Product/info', {
     params: {
         productId
     }
 })
 
 /* 对商品进行上架/下架处理 */
-export const reqUpdateStatus = (productId, status) => ajax(BASE + '/manage/product/updateStatus', {
+export const reqUpdateStatus = (productId, status) => ajax(BASE + '/manage/Product/updateStatus', {
     method: 'POST',
     data: {
         productId,
@@ -84,7 +84,7 @@ export const reqDeleteImg = (name) => ajax.post(BASE + '/manage/img/delete', {na
 
 /* 添加/修改商品 */
 export const reqAddUpdateProduct = (product) => ajax.post(
-    BASE + '/manage/product/' + (product._id ? 'update' : 'add'),
+    BASE + '/manage/Product/' + (product._id ? 'update' : 'add'),
     product
 )
 

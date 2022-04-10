@@ -10,7 +10,7 @@ import {
 } from 'antd'
 
 import { reqCategorys, reqAddUpdateProduct } from '../../api'
-import PicturesWall from './pictures-wall'
+import Pictures_Wall from './Pictures_Wall'
 import LinkButton from '../../components/Link_Button/Link_Button'
 import memoryUtils from '../../Utils/memoryUtils'
 import RichTextEditor from './rich-text-editor'
@@ -85,7 +85,7 @@ class ProductAddUpdate extends Component {
         const result = await reqAddUpdateProduct(product)
         if (result.status===0) {
           message.success(`${this.isUpdate ? '修改' : '添加'}商品成功`)
-          this.props.history.replace('/product')
+          this.props.history.replace('/Product')
         } else {
           message.error(result.msg)
         }
@@ -168,7 +168,7 @@ class ProductAddUpdate extends Component {
           </Item>
           <Item label="商品图片">
             {/* 将容器交给需要标记的标签对象, 在解析时就会自动将标签对象保存到容器中(属性名为: current, 属性值标签对象) */}
-            <PicturesWall ref={this.pwRef} imgs={product.imgs}/>
+            <Pictures_Wall ref={this.pwRef} imgs={product.imgs}/>
           </Item>
           <Item label="商品详情" wrapperCol={{ span: 20 }}>
             <RichTextEditor ref={this.editorRef} detail={product.detail}/>

@@ -7,7 +7,7 @@ import Header from '../../components/Header/Header'
 
 import Home from '../Home/Home'
 import Category from '../Category/Category'
-import Product from '../product/product'
+import Product from '../Product/Product'
 import Role from '../Role/Role'
 import User from '../User/User'
 import Bar from '../charts/bar'

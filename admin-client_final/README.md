@@ -365,7 +365,7 @@
     2). 分类下拉列表的异步显示
     3). 表单数据收集与表单验证
     
-## 4. PicturesWall
+## 4. Pictures_Wall
     1). antd组件
         Upload / Modal / Icon
         根据示例DEMO改造编写
@@ -378,7 +378,7 @@
         当文件状态变为删除时, 调用删除图片的接口删除上传到后台的图片
     4). 父组件调用子组件对象的方法: 使用ref技术
         a. 创建ref容器: thi.pw = React.createRef()
-        b. 将ref容器交给需要获取的标签元素: <PicturesWall ref={this.pw} />  // 自动将将标签对象添加为pw对象的current属性
+        b. 将ref容器交给需要获取的标签元素: <Pictures_Wall ref={this.pw} />  // 自动将将标签对象添加为pw对象的current属性
         c. 通过ref容器读取标签元素: this.pw.current
 
 # day06
