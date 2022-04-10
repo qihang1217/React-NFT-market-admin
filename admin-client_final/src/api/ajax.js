@@ -15,7 +15,7 @@ axios.interceptors.request.use(function (config) {
   const {method, data} = config
   // 处理post请求, 将data对象转换成query参数格式字符串
   if (method.toLowerCase() === 'post' && typeof data==='object') {
-    config.data = qs.stringify(data) // username=admin&password=admin
+    config.data = qs.stringify(data) // username=Admin&password=Admin
   }
 
   return config

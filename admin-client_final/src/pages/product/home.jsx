@@ -11,7 +11,7 @@ import {
 import throttle from 'lodash/throttle'
 
 import { reqProducts, reqSearchProducts, reqUpdateStatus } from '../../api'
-import LinkButton from '../../components/link-button'
+import LinkButton from '../../components/Link_Button/Link_Button'
 import { PAGE_SIZE } from '../../Utils/Constants'
 import memoryUtils from '../../Utils/memoryUtils';
 
@@ -62,11 +62,11 @@ export default class ProductHome extends Component {
         width: 100,
         // dataIndex: 'status',
         render: ({_id, status}) => {
-          let btnText = '下架'
-          let text = '在售'
+          let btnText = '通过'
+          let text = '不通过'
           if (status === 2) {
-            btnText = '上架'
-            text = '已下架'
+            btnText = '不通过'
+            text = '通过'
           }
           return (
             <span>

@@ -12,7 +12,7 @@ const Option = Select.Option
 /*
 添加/修改用户的form组件
  */
-class UserForm extends PureComponent {
+class User_Form extends PureComponent {
 
   static propTypes = {
     setForm: PropTypes.func.isRequired, // 用来传递form对象的函数
@@ -110,4 +110,4 @@ class UserForm extends PureComponent {
   }
 }
 
-export default UserForm
+export default User_Form

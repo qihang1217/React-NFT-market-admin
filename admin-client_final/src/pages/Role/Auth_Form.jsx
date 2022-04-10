@@ -14,7 +14,7 @@ const Item = Form.Item
 /*
 添加分类的form组件
  */
-export default class AuthForm extends PureComponent {
+export default class Auth_Form extends PureComponent {
 
   static propTypes = {
     role: PropTypes.object

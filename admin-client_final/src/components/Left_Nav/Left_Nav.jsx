@@ -4,15 +4,16 @@ import { Menu, Icon } from 'antd'
 
 import menuList from '../../config/menuConfig'
 import logo from '../../assets/images/logo.png'
-import './index.less'
+import './Left_Nav.less'
 import memoryUtils from '../../Utils/memoryUtils';
+import storageUtils from "../../Utils/storageUtils";
 
 const { SubMenu } = Menu
 
 /* 
 左侧导航组件
 */
-class LeftNav extends Component {
+class Left_Nav extends Component {
 
 
   /* 
@@ -20,12 +21,12 @@ class LeftNav extends Component {
   */
   hasAuth  = (item) => {
     // 得到当前用户的所有权限
-    const user = memoryUtils.user
+    const user = storageUtils.getUser()
     const menus = user.role.menus
     // 1. 如果当前用户是admin
     // 2. 如果item是公开的
     // 3. 当前用户有此item的权限
-    if (user.username === 'admin' || item.public || menus.indexOf(item.key)!==-1) {
+    if (user.admin_name === 'admin' || item.public || menus.indexOf(item.key)!==-1) {
       return true
     } else if (item.children) {
       // 4. 如果当前用户有item的某个子节点的权限, 当前item也应该显示
@@ -146,7 +147,7 @@ class LeftNav extends Component {
 
 
   render() {
-    console.log('left-nav render()')
+    console.log('Left_Nav render()')
     
     // 得到当前请求路径, 作为选中菜单项的key
     let selectKey = this.props.location.pathname // /product/xxx
@@ -178,4 +179,4 @@ class LeftNav extends Component {
   }
 }
 
-export default withRouter(LeftNav)
+export default withRouter(Left_Nav)

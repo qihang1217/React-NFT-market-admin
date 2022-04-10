@@ -172,7 +172,7 @@
             保存user到local/内存中
             跳转到admin
         4). 如果内存中的user有值, 自动跳转到admin
-    admin.jsx
+    Admin.jsx
         判断如果内存中没有user(_id没有值), 自动跳转到login
     storageUtils.js
         包含使用localStorage来保存user相关操作的工具模块

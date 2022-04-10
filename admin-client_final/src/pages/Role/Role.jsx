@@ -7,10 +7,10 @@ import {
   message
 } from 'antd'
 
-import LinkButton from '../../components/link-button'
+import LinkButton from '../../components/Link_Button/Link_Button'
 import { PAGE_SIZE } from "../../Utils/Constants"
-import AddForm from './add-form'
-import AuthForm from './auth-form'
+import Add_Form from './Add_Form'
+import Auth_Form from './Auth_Form'
 import { formateDate } from '../../Utils/dateUtils'
 import memoryUtils from '../../Utils/memoryUtils'
 import { reqAddRole, reqUpdateRole, reqRoles } from '../../api'
@@ -147,7 +147,7 @@ export default class Role extends PureComponent {
   }
 
   render() {
-    console.log('role render()')
+    console.log('Role render()')
     const { roles, isShowAdd, isShowAuth } = this.state
     const role = this.role || {}
 
@@ -176,7 +176,7 @@ export default class Role extends PureComponent {
             this.form.resetFields()
           }}
         >
-          <AddForm
+          <Add_Form
             setForm={(form) => this.form = form}
           />
         </Modal>
@@ -189,7 +189,7 @@ export default class Role extends PureComponent {
             this.setState({ isShowAuth: false })
           }}
         >
-          <AuthForm ref={this.authRef} role={role} />
+          <Auth_Form ref={this.authRef} role={role} />
         </Modal>
       </Card>
     )

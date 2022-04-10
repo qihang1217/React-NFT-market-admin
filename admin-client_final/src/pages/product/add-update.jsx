@@ -11,7 +11,7 @@ import {
 
 import { reqCategorys, reqAddUpdateProduct } from '../../api'
 import PicturesWall from './pictures-wall'
-import LinkButton from '../../components/link-button'
+import LinkButton from '../../components/Link_Button/Link_Button'
 import memoryUtils from '../../Utils/memoryUtils'
 import RichTextEditor from './rich-text-editor'
 

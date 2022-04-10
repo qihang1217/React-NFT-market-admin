@@ -2,22 +2,18 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { Modal } from 'antd'
 
-import LinkButton from '../../components/link-button'
+import LinkButton from '../Link_Button/Link_Button'
 import {reqWeather} from '../../api'
 import { formateDate } from '../../Utils/dateUtils'
 import menuList from '../../config/menuConfig'
 import memoryUtils from '../../Utils/memoryUtils'
 import storageUtils from '../../Utils/storageUtils'
 
-import './index.less'
+import './Header.less'
 
 class Header extends Component {
-
-
   state = {
     currentTime: formateDate(Date.now()),
-    dayPictureUrl: '', // 图片url
-    weather: '', // 天气文本
   }
 
   /* 
@@ -26,19 +22,23 @@ class Header extends Component {
   logout = () => {
     // 显示确认提示
     Modal.confirm({
-      title: '确认退出吗?',
+      title: '确认退出登陆吗?',
+      okText:'确认',
+      cancelText: '取消',
       onOk: () => {
-        console.log('OK');
+        // console.log('OK');
         // 确定后, 删除存储的用户信息
         // local中的
         storageUtils.removeUser()
+        storageUtils.removeToken()
         // 内存中的
         memoryUtils.user = {}
+        memoryUtils.token = ''
         // 跳转到登陆界面
         this.props.history.replace('/Login')
       },
       onCancel() {
-        console.log('Cancel');
+        // console.log('Cancel');
       },
     })
     
@@ -65,20 +65,6 @@ class Header extends Component {
     return title
   }
 
-  /* 
-  获取天气信息显示
-  */
-  getWeather = async () => {
-    // 发请求
-    const { dayPictureUrl, weather } = await reqWeather('北京')
-    // 更新状态
-    this.setState({
-      dayPictureUrl, 
-      weather
-    })
-  }
-
-
   componentDidMount () {
     // 启动循环定时器
     this.intervalId = setInterval(() => {
@@ -87,8 +73,6 @@ class Header extends Component {
         currentTime: formateDate(Date.now())
       })
     }, 1000);
-    // 发jsonp请求获取天气信息显示
-    this.getWeather()
   }
 
   componentWillUnmount () {
@@ -99,7 +83,7 @@ class Header extends Component {
 
   render() {
 
-    const { currentTime, dayPictureUrl, weather } = this.state 
+    const { currentTime,weather } = this.state
 
     const user = memoryUtils.user
     // 得到当前需要显示的title
@@ -108,7 +92,7 @@ class Header extends Component {
     return (
       <div className="header">
         <div className="header-top">
-          欢迎, {user.username} &nbsp;&nbsp;
+          欢迎, {user.admin_name} &nbsp;&nbsp;
 
           {/* 组件的标签体作为标签的children属性传入 */}
           <LinkButton onClick={this.logout}>退出</LinkButton>
@@ -117,8 +101,6 @@ class Header extends Component {
           <div className="header-bottom-left">{title}</div>
           <div className="header-bottom-right">
             <span>{ currentTime }</span>
-            <img src={dayPictureUrl} alt="weather"/>
-            <span>{weather}</span>
           </div>
         </div>
       </div>

@@ -9,6 +9,7 @@ export default class ApiUtil {
     static API_STAFF_DELETE = ApiUtil.URL_INTERFACE + '/deleteStaff/';
     static API_STAFF_SEARCH_3 = ApiUtil.URL_INTERFACE + '/searchStaff_3';  //只搜索3个属性
 
+    static API_WEATHER='https://api.map.baidu.com/weather/v1/?district_id=420115&data_type=all&ak=5C9gomQ1oIPh0Dv9lBOHGbul5XbfyXKn'
     static API_LOGIN = ApiUtil.URL_INTERFACE + '/login';
     static API_CHECK_USERNAME = ApiUtil.URL_INTERFACE + '/checkUserName';
     static API_CHECK_PASSWORD = ApiUtil.URL_INTERFACE + '/checkPassword';

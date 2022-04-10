@@ -8,7 +8,7 @@ export default {
   保存user
   */
   saveUser (user) {
-    // localStorage.setItem(USER_KEY, JSON.stringify(user))
+    // localStorage.setItem(USER_KEY, JSON.stringify(User))
     store.set(USER_KEY, user)
   },
 
@@ -32,7 +32,7 @@ export default {
   保存token
   */
   saveToken (token) {
-    // localStorage.setItem(USER_KEY, JSON.stringify(user))
+    // localStorage.setItem(USER_KEY, JSON.stringify(User))
     store.set(TOKEN_KEY, token)
   },
 

@@ -9,8 +9,8 @@ import {
 } from 'antd'
 
 import { reqCategorys, reqAddCategory, reqUpdateCategory } from '../../api'
-import LinkButton from '../../components/link-button'
-import AddUpdateForm from './add-update-form'
+import LinkButton from '../../components/Link_Button/Link_Button'
+import Add_Update_Form from './Add_Update_Form'
 
 
 
@@ -162,7 +162,7 @@ export default class Category extends Component {
           onCancel={this.handleCancel}
         >
           {/* 将子组件传递过来的form对象保存到当前组件对象上 */}
-          <AddUpdateForm setForm={form => this.form = form} categoryName={category.name}/>
+          <Add_Update_Form setForm={form => this.form = form} categoryName={category.name}/>
         </Modal>
       </Card>
     )

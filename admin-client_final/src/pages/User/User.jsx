@@ -7,9 +7,9 @@ import {
   message
 } from 'antd'
 import {formateDate} from "../../Utils/dateUtils"
-import LinkButton from "../../components/link-button/index"
+import LinkButton from "../../components/Link_Button/Link_Button"
 import {reqDeleteUser, reqUsers, reqAddOrUpdateUser} from "../../api/index";
-import UserForm from './user-form'
+import User_Form from './User_Form'
 
 /*
 用户路由
@@ -45,7 +45,7 @@ export default class User extends Component {
       {
         title: '所属角色',
         dataIndex: 'role_id',
-        // render: role_id => this.state.roles.find(role => role._id===role_id).name
+        // render: role_id => this.state.roles.find(Role => Role._id===role_id).name
         render: role_id => this.roleNames[role_id]
       },
       {
@@ -179,7 +179,7 @@ export default class User extends Component {
             this.setState({isShow: false})
           }}
         >
-          <UserForm
+          <User_Form
             setForm={form => this.form = form}
             roles={roles}
             user={user}

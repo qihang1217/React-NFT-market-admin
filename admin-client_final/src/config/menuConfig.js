@@ -6,7 +6,7 @@ const menuList = [
     public: true, // 公开的
   },
   {
-    title: '商品',
+    title: 'NFT',
     key: '/products',
     icon: 'appstore',
     children: [ // 子菜单列表
