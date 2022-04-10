@@ -79,13 +79,26 @@ def login_user():
     token = user_data.get('token', None)
     _token = verify_auth_token(token)
     response = DBUtil.checkAdmins(user_data)
+    success_flag=False
     if _token == 'success':
         response['token_message'] = _token
+        success_flag=True
     elif response['message'] == '验证成功':
         # token并没有验证通过,但账号密码验证通过则生成新的token
         new_token = generate_auth_token(user_data)
         response['token_message'] = _token
         response['token'] = new_token
+        success_flag=True
+    if success_flag:
+        # 登陆成功
+        # 获取用户数据中的role_id
+        role_id=response.get('role_id')
+        if role_id:
+            # 查询其权限
+            res=DBUtil.getOwnRoles(role_id)
+            response['data'][0]['role']=json.loads(res['menus'])
+        else:
+            response['data'][0]['role']=[]
     response['responseCode'] = 200
     print('response',response)
     return jsonify(response)
