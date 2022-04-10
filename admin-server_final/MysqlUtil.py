@@ -73,10 +73,10 @@ class Products(db.Model):
     product_id = db.Column(db.Integer, primary_key=True)
     product_name = db.Column(db.String(20))
     owner_id = db.Column(db.Integer,db.ForeignKey('Users.user_id'))
-    file_url=db.Column(db.String(100))
+    price=db.Column(db.Integer)
     pass_status=db.Column(db.Boolean)
+    file_url=db.Column(db.String(100))
     description=db.Column(db.Text)
-
 
 class Roles(db.Model):
     # 创建Roles类，映射到数据库中叫Roles表
