@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
-import { Redirect, Switch, Route } from 'react-router-dom'
-import { Layout } from 'antd';
+import React, {Component} from 'react'
+import {Redirect, Route, Switch} from 'react-router-dom'
+import {Layout} from 'antd';
 
 import LeftNav from '../../components/Left_Nav/Left_Nav'
 import Header from '../../components/Header/Header'
@@ -15,7 +15,9 @@ import Line from '../charts/line'
 import Pie from '../charts/pie'
 import memoryUtils from "../../Utils/memoryUtils";
 
-const { Footer, Sider, Content } = Layout
+import "./Admin.less";
+
+const {Footer, Sider, Content} = Layout
 
 
 export default class Admin extends Component {
@@ -28,17 +30,17 @@ export default class Admin extends Component {
     }
 
     return (
-      <Layout style={{ height: '100%' }}>
-        <Sider>
-          <LeftNav />
-        </Sider>
         <Layout>
-          <Header/>
-          <Content style={{ background: 'white', margin: '20px'}}>
-            <Switch>
-              <Route path="/home" component={Home}/>
-              <Route path='/category' component={Category} />
-              <Route path='/product' component={Product} />
+          <Sider>
+            <LeftNav/>
+          </Sider>
+          <Layout>
+            <Header/>
+            <Content style={{background: 'white', margin: '20px'}}>
+              <Switch>
+                <Route path="/home" component={Home}/>
+                <Route path='/category' component={Category}/>
+                <Route path='/product' component={Product}/>
               <Route path='/role' component={Role} />
               <Route path='/user' component={User} />
               <Route path='/charts/bar' component={Bar} />

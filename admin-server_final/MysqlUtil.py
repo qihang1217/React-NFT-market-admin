@@ -28,21 +28,6 @@ def class_to_dict(obj):
         return dict
 
 
-# {
-#   "real_name": "1",
-#   "id_number": "1",
-#   "age": "1",
-#   "email": "1",
-#   "prefix": "86",
-#   "phone_number": "1",
-#   "gender": "男",
-#   "user_name": "1",
-#   "password": "tF0l/p7VDxtzFoAijp2kEQ==",
-#   "confirm": "1",
-#   "agreement": true,
-#   "email_end": "@qq.com"
-# }
-
 # 查询结果转换成json
 class MixToJson:
     # 查询单条数据
@@ -65,7 +50,8 @@ class MixToJson:
         v = [ven.dobule_to_dict() for ven in all_vendors]
         return v
 
-class Users(db.Model,MixToJson):
+
+class Users(db.Model, MixToJson):
     # 创建Users类，映射到数据库中叫Users表
     __tablename__ = "Users"
     # 创建字段： id， 主键和自增涨
@@ -88,7 +74,7 @@ class Users(db.Model,MixToJson):
     password = db.Column(db.String(44), nullable=False)
 
 
-class Categories(db.Model,MixToJson):
+class Categories(db.Model, MixToJson):
     # 创建Categories类，映射到数据库中叫Categories表
     __tablename__ = "Categories"
     # 创建字段： role_id， 主键和自增涨
@@ -107,12 +93,12 @@ class Products(db.Model, MixToJson):
     pass_status = db.Column(db.Boolean)
     # 防止文件名可能的重复
     file_url = db.Column(db.String(100), unique=True)
+    file_type = db.Column(db.String(10))
     description = db.Column(db.Text)
     category_id = db.Column(db.Integer, db.ForeignKey('Categories.category_id'))
 
 
-
-class Roles(db.Model,MixToJson):
+class Roles(db.Model, MixToJson):
     # 创建Roles类，映射到数据库中叫Roles表
     __tablename__ = "Roles"
     # 创建字段： role_id， 主键和自增涨
@@ -122,7 +108,7 @@ class Roles(db.Model,MixToJson):
     menus = db.Column(db.String(100))
 
 
-class Admins(db.Model,MixToJson):
+class Admins(db.Model, MixToJson):
     # 创建Users类，映射到数据库中叫Users表
     __tablename__ = "Admins"
     # 创建字段： admin_id， 主键和自增涨
@@ -261,10 +247,10 @@ def get_categories():
 
 def add_category(category_name):
     try:
-        Category=Categories(category_name=category_name)
+        Category = Categories(category_name=category_name)
         db.session.add(Category)
         db.session.commit()
-        return class_to_dict(Categories.query.filter(Categories.category_name==category_name).all()), 0
+        return class_to_dict(Categories.query.filter(Categories.category_name == category_name).all()), 0
     except Exception as e:
         print(repr(e))
         return [{}], -1
@@ -272,7 +258,7 @@ def add_category(category_name):
         db.session.close()
 
 
-def update_category(category_id,category_name):
+def update_category(category_id, category_name):
     try:
         Categories.query.filter(Categories.category_id == category_id).update({'category_name': category_name})
         db.session.commit()
@@ -286,23 +272,23 @@ def update_category(category_id,category_name):
 
 def get_category_by_id(category_id):
     try:
-        res=Categories.query.filter(Categories.category_id == category_id).first()
+        res = Categories.query.filter(Categories.category_id == category_id).first()
         db.session.commit()
-        return res.single_to_dict(),0
+        return res.single_to_dict(), 0
     except Exception as e:
         print(repr(e))
-        return [{}],-1
+        return [{}], -1
     finally:
         db.session.close()
 
 
 def get_product_by_id(product_id):
     try:
-        res=Products.query.filter(Products.product_id == product_id).first()
+        res = Products.query.filter(Products.product_id == product_id).first()
         db.session.commit()
-        return res.single_to_dict(),0
+        return res.single_to_dict(), 0
     except Exception as e:
         print(repr(e))
-        return [{}],-1
+        return [{}], -1
     finally:
         db.session.close()

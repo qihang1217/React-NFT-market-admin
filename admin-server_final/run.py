@@ -21,21 +21,6 @@ cors = CORS(app, supports_credentials=True)
 apiPrefix = '/api/admin/'
 
 
-# # show photo
-# @app.route('/show/<string:filename>', methods=['GET'])
-# def show_photo(filename):
-#     file_dir = os.path.join(basedir, app.config['UPLOAD_FOLDER'])
-#     if request.method == 'GET':
-#         if filename is None:
-#             pass
-#         else:
-#             image_data = open(os.path.join(file_dir, '%s' % filename), "rb").read()
-#             response = make_response(image_data)
-#             response.headers['Content-Type'] = 'image/png'
-#             return response
-#     else:
-#         pass
-
 ########## Token接口
 def generate_auth_token(data):
     expiration = 3600
