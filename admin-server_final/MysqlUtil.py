@@ -66,6 +66,14 @@ class Users(db.Model):
     password = db.Column(db.String(44), nullable=False)
 
 
+class Categories(db.Model):
+    # 创建Categories类，映射到数据库中叫Categories表
+    __tablename__ = "Categories"
+    # 创建字段： role_id， 主键和自增涨
+    category_id = db.Column(db.Integer, primary_key=True)
+    category_name = db.Column(db.String(20), unique=True)
+
+
 class Products(db.Model):
     # 创建Roles类，映射到数据库中叫Roles表
     __tablename__ = "Products"
@@ -75,8 +83,10 @@ class Products(db.Model):
     owner_id = db.Column(db.Integer, db.ForeignKey('Users.user_id'))
     price = db.Column(db.Integer)
     pass_status = db.Column(db.Boolean)
-    file_url = db.Column(db.String(100))
+    # 防止文件名可能的重复
+    file_url = db.Column(db.String(100), unique=True)
     description = db.Column(db.Text)
+    category_id = db.Column(db.Integer, db.ForeignKey('Categories.category_id'))
 
 
 class Roles(db.Model):
@@ -109,8 +119,23 @@ db.create_all()
 res = db.session.query(Admins).filter(Admins.admin_name == 'admin').all()
 db.session.commit()
 if len(res) == 0:
-    use = Admins(admin_name='admin', password='ApUghu4n1mNSqH2grfnHUw==')
-    db.session.add(use)
+    user = Admins(admin_name='admin', password='ApUghu4n1mNSqH2grfnHUw==')
+    db.session.add(user)
+    db.session.commit()
+
+# 初始化分类
+res = db.session.query(Categories).all()
+db.session.commit()
+if len(res) == 0:
+    Category1 = Categories(category_name='绘画')
+    Category2 = Categories(category_name='书法')
+    Category3 = Categories(category_name='文献')
+    Category4 = Categories(category_name='票券')
+    Category5 = Categories(category_name='商标')
+    Category6 = Categories(category_name='邮票')
+    Category7 = Categories(category_name='雕塑')
+    Category8 = Categories(category_name='摄影')
+    db.session.add_all([Category1, Category2, Category3, Category4, Category5, Category6, Category7, Category8])
     db.session.commit()
 
 # staffColumns = ("id", "service", "money", "card_number", "name", "phone", "project", \
@@ -175,11 +200,12 @@ def get_products():
         db.session.close()
 
 
-def search_products(search_type,search_name):
+def search_products(search_type, search_name):
     try:
-        if search_type=='productName':
-            return class_to_dict(db.session.query(Products).filter(Products.product_name.contains(search_name)).all()), 0
-        if search_type=='productDesc':
+        if search_type == 'productName':
+            return class_to_dict(
+                db.session.query(Products).filter(Products.product_name.contains(search_name)).all()), 0
+        if search_type == 'productDesc':
             return class_to_dict(db.session.query(Products).filter(Products.description.contains(search_name)).all()), 0
     except Exception as e:
         print(repr(e))
@@ -190,9 +216,42 @@ def search_products(search_type,search_name):
 
 def update_product_status(product_id, pass_status):
     try:
-        print(pass_status)
-        print(type(pass_status))
         db.session.query(Products).filter(Products.product_id == product_id).update({'pass_status': pass_status})
+        db.session.commit()
+        return 0
+    except Exception as e:
+        print(repr(e))
+        return -1
+    finally:
+        db.session.close()
+
+
+def get_categories():
+    try:
+        return class_to_dict(db.session.query(Categories).all()), 0
+    except Exception as e:
+        print(repr(e))
+        return [{}], -1
+    finally:
+        db.session.close()
+
+
+def add_category(category_name):
+    try:
+        Category=Categories(category_name=category_name)
+        db.session.add(Category)
+        db.session.commit()
+        return class_to_dict(db.session.query(Categories).filter(Categories.category_name==category_name).all()), 0
+    except Exception as e:
+        print(repr(e))
+        return [{}], -1
+    finally:
+        db.session.close()
+
+
+def update_category(category_id,category_name):
+    try:
+        db.session.query(Categories).filter(Categories.category_id == category_id).update({'category_name': category_name})
         db.session.commit()
         return 0
     except Exception as e:

@@ -134,7 +134,9 @@ def search_product_list():
             search_type=item
             search_name=args.get(item)
     res, status=DBUtil.search_products(search_type,search_name)
+    # 数据总数
     total = len(res)
+    # 向上去整,算出分页的页数
     pages = math.ceil((total + page_size - 1) / page_size)
     data_dict = {'pageNum': page_num, 'pageSize': page_size, 'list': res, 'total': total, 'pages': pages}
     response = {
@@ -158,6 +160,41 @@ def update_product_status():
     }
     return jsonify(response)
 
+
+@app.route(apiPrefix + 'manage/category/list', methods=['GET'], strict_slashes=False)
+def get_category_list():
+    res, status = DBUtil.get_categories()
+    response = {
+        'status': status,
+        'data': res,
+    }
+    return jsonify(response)
+
+
+@app.route(apiPrefix + '/manage/category/add', methods=['POST'], strict_slashes=False)
+def add_category():
+    json_str = request.get_data(as_text=True)
+    req_data = json.loads(json_str)
+    category_name=req_data.get('categoryName')
+    res, status = DBUtil.add_category(category_name)
+    response = {
+        'status': status,
+        'data': res,
+    }
+    return jsonify(response)
+
+
+@app.route(apiPrefix + '/manage/category/update', methods=['POST'], strict_slashes=False)
+def update_category():
+    json_str = request.get_data(as_text=True)
+    req_data = json.loads(json_str)
+    category_id=req_data.get('categoryId')
+    category_name=req_data.get('categoryName')
+    status = DBUtil.update_category(category_id,category_name)
+    response = {
+        'status': status,
+    }
+    return jsonify(response)
 
 # 校验是否登陆
 ########## Staff接口

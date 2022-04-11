@@ -1,15 +1,7 @@
-import React, { Component } from 'react'
-import {
-  Card,
-  Icon,
-  Form,
-  Input,
-  Select,
-  Button,
-  message
-} from 'antd'
+import React, {Component} from 'react'
+import {Button, Card, Form, Icon, Input, message, Select} from 'antd'
 
-import { reqCategorys, reqAddUpdateProduct } from '../../api'
+import {reqAddUpdateProduct, reqCategories} from '../../api'
 import Pictures_Wall from './Pictures_Wall'
 import LinkButton from '../../components/Link_Button/Link_Button'
 import memoryUtils from '../../Utils/memoryUtils'
@@ -35,7 +27,7 @@ class ProductAddUpdate extends Component {
   }
 
   getCategorys = async () => {
-    const result = await reqCategorys()
+      const result = await reqCategories()
     if (result.status === 0) {
       const categorys = result.data
       this.setState({ categorys })

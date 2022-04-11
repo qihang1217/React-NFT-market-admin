@@ -4,7 +4,7 @@ import throttle from 'lodash/throttle'
 
 import {reqProducts, reqSearchProducts, reqUpdateStatus} from '../../api'
 import LinkButton from '../../components/Link_Button/Link_Button'
-import {PAGE_SIZE} from '../../Utils/Constants'
+import {PRODUCT_PAGE_SIZE} from '../../Utils/Constants'
 import memoryUtils from '../../Utils/memoryUtils';
 
 const Option = Select.Option
@@ -104,9 +104,9 @@ export default class ProductHome extends Component {
         let result
         // 发请求获取数据
         if (!this.isSearch) {
-            result = await reqProducts(pageNum, PAGE_SIZE)
+            result = await reqProducts(pageNum, PRODUCT_PAGE_SIZE)
         } else {
-            result = await reqSearchProducts({pageNum, pageSize: PAGE_SIZE, searchName, searchType})
+            result = await reqSearchProducts({pageNum, pageSize: PRODUCT_PAGE_SIZE, searchName, searchType})
         }
 
         if (result.status === 0) {
@@ -168,7 +168,7 @@ export default class ProductHome extends Component {
                     dataSource={products}
                     pagination={{
                         total,
-                        defaultPageSize: PAGE_SIZE,
+                        defaultPageSize: PRODUCT_PAGE_SIZE,
                         showQuickJumper: true,
                         onChange: this.getProducts,
                         current: this.pageNum

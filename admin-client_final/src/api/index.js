@@ -13,26 +13,22 @@ export const reqLogin = (e) => {
     return HttpUtil.post(ApiUtil.API_LOGIN, e)
 }
 
-// const persons/personList/personArr = [{}, {}]
 
-// 获取分类列表
-// export const reqCategorys = () => ajax.get(BASE + '/manage/Category/list')
-/* export const reqCategorys = () => ajax({
-  // method: 'GET',
-  url: BASE + '/manage/Category/list'
-}) */
-export const reqCategorys = () => ajax(BASE + '/manage/Category/list')
+export const reqCategories = () => {
+    return HttpUtil.get(ApiUtil.API_CATEGORY_LIST)
+}
+
 
 // 添加分类
-export const reqAddCategory = (categoryName) => ajax.post(BASE + '/manage/Category/add', {
-    categoryName
-})
+export const reqAddCategory = (categoryName) => {
+    return HttpUtil.post(ApiUtil.API_ADD_CATEGORY, {categoryName})
+}
 
 // 修改分类
-export const reqUpdateCategory = ({categoryId, categoryName}) => ajax.post(BASE + '/manage/Category/update', {
-    categoryId,
-    categoryName
-})
+export const reqUpdateCategory = ({categoryId, categoryName}) => {
+    return HttpUtil.post(ApiUtil.API_UPDATE_CATEGORY, {categoryId, categoryName})
+}
+
 
 // 根据分类id获取分类
 export const reqCategory = (categoryId) => ajax(BASE + '/manage/Category/info', {

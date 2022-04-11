@@ -1,19 +1,13 @@
-import React, { PureComponent } from 'react'
-import {
-  Card,
-  Button,
-  Table,
-  Modal,
-  message
-} from 'antd'
+import React, {PureComponent} from 'react'
+import {Button, Card, message, Modal, Table} from 'antd'
 
 import LinkButton from '../../components/Link_Button/Link_Button'
-import { PAGE_SIZE } from "../../Utils/Constants"
+import {ROLE_PAGE_SIZE} from "../../Utils/Constants"
 import Add_Form from './Add_Form'
 import Auth_Form from './Auth_Form'
-import { formateDate } from '../../Utils/dateUtils'
+import {formateDate} from '../../Utils/dateUtils'
 import memoryUtils from '../../Utils/memoryUtils'
-import { reqAddRole, reqUpdateRole, reqRoles } from '../../api'
+import {reqAddRole, reqRoles, reqUpdateRole} from '../../api'
 
 /*
 角色路由
@@ -160,11 +154,11 @@ export default class Role extends PureComponent {
     return (
       <Card title={title}>
         <Table
-          bordered
-          rowKey='_id'
-          dataSource={roles}
-          columns={this.columns}
-          pagination={{ defaultPageSize: PAGE_SIZE }}
+            bordered
+            rowKey='_id'
+            dataSource={roles}
+            columns={this.columns}
+            pagination={{defaultPageSize: ROLE_PAGE_SIZE}}
         />
 
         <Modal
