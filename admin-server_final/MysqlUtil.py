@@ -43,7 +43,29 @@ def class_to_dict(obj):
 #   "email_end": "@qq.com"
 # }
 
-class Users(db.Model):
+# 查询结果转换成json
+class MixToJson:
+    # 查询单条数据
+    def single_to_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+    # 多条数据
+    def double_to_dict(self):
+        result = {}
+        for key in self.__mapper__.c.keys():
+            if getattr(self, key) is not None:
+                result[key] = str(getattr(self, key))
+            else:
+                result[key] = getattr(self, key)
+        return result
+
+    # 配合double_to_dict一起使用
+    @staticmethod
+    def to_json(all_vendors):
+        v = [ven.dobule_to_dict() for ven in all_vendors]
+        return v
+
+class Users(db.Model,MixToJson):
     # 创建Users类，映射到数据库中叫Users表
     __tablename__ = "Users"
     # 创建字段： id， 主键和自增涨
@@ -66,7 +88,7 @@ class Users(db.Model):
     password = db.Column(db.String(44), nullable=False)
 
 
-class Categories(db.Model):
+class Categories(db.Model,MixToJson):
     # 创建Categories类，映射到数据库中叫Categories表
     __tablename__ = "Categories"
     # 创建字段： role_id， 主键和自增涨
@@ -74,7 +96,7 @@ class Categories(db.Model):
     category_name = db.Column(db.String(20), unique=True)
 
 
-class Products(db.Model):
+class Products(db.Model, MixToJson):
     # 创建Roles类，映射到数据库中叫Roles表
     __tablename__ = "Products"
     # 创建字段： role_id， 主键和自增涨
@@ -89,7 +111,8 @@ class Products(db.Model):
     category_id = db.Column(db.Integer, db.ForeignKey('Categories.category_id'))
 
 
-class Roles(db.Model):
+
+class Roles(db.Model,MixToJson):
     # 创建Roles类，映射到数据库中叫Roles表
     __tablename__ = "Roles"
     # 创建字段： role_id， 主键和自增涨
@@ -99,7 +122,7 @@ class Roles(db.Model):
     menus = db.Column(db.String(100))
 
 
-class Admins(db.Model):
+class Admins(db.Model,MixToJson):
     # 创建Users类，映射到数据库中叫Users表
     __tablename__ = "Admins"
     # 创建字段： admin_id， 主键和自增涨
@@ -147,7 +170,7 @@ AdminColumns = ("id", "user_name", "password")
 def check_admins(admin_data):
     # 验证密码是否正确
     try:
-        res = db.session.query(Admins).filter(Admins.admin_name == admin_data['user_name']).all()
+        res = Admins.query.filter(Admins.admin_name == admin_data['user_name']).all()
         db.session.commit()
         if len(res) == 0:
             re = {
@@ -182,7 +205,7 @@ def check_admins(admin_data):
 
 def get_own_roles(role_id):
     try:
-        res = db.session.query(Roles).fileter(Roles.role_id == role_id).all()
+        res = Roles.query.fileter(Roles.role_id == role_id).all()
         return class_to_dict(res)
     except Exception as e:
         print(repr(e))
@@ -192,7 +215,7 @@ def get_own_roles(role_id):
 
 def get_products():
     try:
-        return class_to_dict(db.session.query(Products).all()), 0
+        return class_to_dict(Products.query.all()), 0
     except Exception as e:
         print(repr(e))
         return [{}], -1
@@ -204,9 +227,9 @@ def search_products(search_type, search_name):
     try:
         if search_type == 'productName':
             return class_to_dict(
-                db.session.query(Products).filter(Products.product_name.contains(search_name)).all()), 0
+                Products.query.filter(Products.product_name.contains(search_name)).all()), 0
         if search_type == 'productDesc':
-            return class_to_dict(db.session.query(Products).filter(Products.description.contains(search_name)).all()), 0
+            return class_to_dict(Products.query.filter(Products.description.contains(search_name)).all()), 0
     except Exception as e:
         print(repr(e))
         return [{}], -1
@@ -216,7 +239,7 @@ def search_products(search_type, search_name):
 
 def update_product_status(product_id, pass_status):
     try:
-        db.session.query(Products).filter(Products.product_id == product_id).update({'pass_status': pass_status})
+        Products.query.filter(Products.product_id == product_id).update({'pass_status': pass_status})
         db.session.commit()
         return 0
     except Exception as e:
@@ -228,7 +251,7 @@ def update_product_status(product_id, pass_status):
 
 def get_categories():
     try:
-        return class_to_dict(db.session.query(Categories).all()), 0
+        return class_to_dict(Categories.query.all()), 0
     except Exception as e:
         print(repr(e))
         return [{}], -1
@@ -241,7 +264,7 @@ def add_category(category_name):
         Category=Categories(category_name=category_name)
         db.session.add(Category)
         db.session.commit()
-        return class_to_dict(db.session.query(Categories).filter(Categories.category_name==category_name).all()), 0
+        return class_to_dict(Categories.query.filter(Categories.category_name==category_name).all()), 0
     except Exception as e:
         print(repr(e))
         return [{}], -1
@@ -251,11 +274,35 @@ def add_category(category_name):
 
 def update_category(category_id,category_name):
     try:
-        db.session.query(Categories).filter(Categories.category_id == category_id).update({'category_name': category_name})
+        Categories.query.filter(Categories.category_id == category_id).update({'category_name': category_name})
         db.session.commit()
         return 0
     except Exception as e:
         print(repr(e))
         return -1
+    finally:
+        db.session.close()
+
+
+def get_category_by_id(category_id):
+    try:
+        res=Categories.query.filter(Categories.category_id == category_id).first()
+        db.session.commit()
+        return res.single_to_dict(),0
+    except Exception as e:
+        print(repr(e))
+        return [{}],-1
+    finally:
+        db.session.close()
+
+
+def get_product_by_id(product_id):
+    try:
+        res=Products.query.filter(Products.product_id == product_id).first()
+        db.session.commit()
+        return res.single_to_dict(),0
+    except Exception as e:
+        print(repr(e))
+        return [{}],-1
     finally:
         db.session.close()

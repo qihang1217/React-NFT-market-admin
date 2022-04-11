@@ -31,11 +31,9 @@ export const reqUpdateCategory = ({categoryId, categoryName}) => {
 
 
 // 根据分类id获取分类
-export const reqCategory = (categoryId) => ajax(BASE + '/manage/Category/info', {
-    params: {
-        categoryId
-    }
-})
+export const reqCategory = (categoryId) => {
+    return HttpUtil.get(ApiUtil.API_CATEGORY_BY_ID + `?categoryId=${categoryId}`)
+}
 
 /* 获取NFT分页列表 */
 export const reqProducts = (pageNum, pageSize) => {
@@ -50,11 +48,9 @@ export const reqSearchProducts = ({pageNum,pageSize,searchName,searchType})=> {
 
 
 /* 根据NFT ID获取NFT */
-export const reqProduct = (productId) => ajax(BASE + '/manage/Product/info', {
-    params: {
-        productId
-    }
-})
+export const reqProduct = (productId) => {
+    return HttpUtil.get(ApiUtil.API_PRODUCT_BY_ID + `?productId=${productId}`)
+}
 
 /* 对NFT进行通过/不通过处理 */
 export const reqUpdateStatus = (product_id, pass_status) => {

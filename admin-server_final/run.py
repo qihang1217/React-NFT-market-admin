@@ -195,5 +195,29 @@ def update_category():
     return jsonify(response)
 
 
+@app.route(apiPrefix + '/manage/category/id', methods=['GET'], strict_slashes=False)
+def get_category_by_id():
+    args = request.args.to_dict()
+    category_id = args.get('categoryId')
+    res, status = DBUtil.get_category_by_id(category_id)
+    response = {
+        'status': status,
+        'data': res,
+    }
+    return jsonify(response)
+
+
+@app.route(apiPrefix + '/manage/product/id', methods=['GET'], strict_slashes=False)
+def get_product_by_id():
+    args = request.args.to_dict()
+    product_id = args.get('productId')
+    res, status = DBUtil.get_product_by_id(product_id)
+    response = {
+        'status': status,
+        'data': res,
+    }
+    return jsonify(response)
+
+
 if __name__ == "__main__":
     app.run(debug=True, port=4999)
