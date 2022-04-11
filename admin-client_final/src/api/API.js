@@ -13,7 +13,7 @@ export const reqLogin = (e) => {
     return HttpUtil.post(ApiUtil.API_LOGIN, e)
 }
 
-
+//请求分类列表
 export const reqCategories = () => {
     return HttpUtil.get(ApiUtil.API_CATEGORY_LIST)
 }

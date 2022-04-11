@@ -1,14 +1,8 @@
 import React, {Component} from 'react'
-import {
-  Card,
-  Button,
-  Table,
-  Modal,
-  message
-} from 'antd'
+import {Button, Card, message, Modal, Table} from 'antd'
 import {formateDate} from "../../Utils/dateUtils"
 import LinkButton from "../../components/Link_Button/Link_Button"
-import {reqDeleteUser, reqUsers, reqAddOrUpdateUser} from "../../api/index";
+import {reqAddOrUpdateUser, reqDeleteUser, reqUsers} from "../../api/API";
 import User_Form from './User_Form'
 
 /*

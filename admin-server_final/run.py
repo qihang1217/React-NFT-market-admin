@@ -127,13 +127,13 @@ def search_product_list():
     print(args)
     page_num = int(args.get('pageNum'))
     page_size = int(args.get('pageSize'))
-    search_name=''
-    search_type=''
+    search_name = ''
+    search_type = ''
     for item in args.keys():
-        if not item in ['pageSize','pageNum']:
-            search_type=item
-            search_name=args.get(item)
-    res, status=DBUtil.search_products(search_type,search_name)
+        if not item in ['pageSize', 'pageNum']:
+            search_type = item
+            search_name = args.get(item)
+    res, status = DBUtil.search_products(search_type, search_name)
     # 数据总数
     total = len(res)
     # 向上去整,算出分页的页数
@@ -144,8 +144,6 @@ def search_product_list():
         'data': data_dict,
     }
     return jsonify(response)
-
-
 
 
 @app.route(apiPrefix + '/manage/product/updateStatus', methods=['POST'], strict_slashes=False)
@@ -175,7 +173,7 @@ def get_category_list():
 def add_category():
     json_str = request.get_data(as_text=True)
     req_data = json.loads(json_str)
-    category_name=req_data.get('categoryName')
+    category_name = req_data.get('categoryName')
     res, status = DBUtil.add_category(category_name)
     response = {
         'status': status,
@@ -188,71 +186,13 @@ def add_category():
 def update_category():
     json_str = request.get_data(as_text=True)
     req_data = json.loads(json_str)
-    category_id=req_data.get('categoryId')
-    category_name=req_data.get('categoryName')
-    status = DBUtil.update_category(category_id,category_name)
+    category_id = req_data.get('categoryId')
+    category_name = req_data.get('categoryName')
+    status = DBUtil.update_category(category_id, category_name)
     response = {
         'status': status,
     }
     return jsonify(response)
-
-# 校验是否登陆
-########## Staff接口
-
-# @app.route(apiPrefix + 'updateStaff', methods=['POST'])
-# def updateStaff():
-#     data = request.get_data(as_text=True)
-#     re = DBUtil.addOrUpdateStaff(data)
-#     # if re['code'] >= 0: # 数据保存成功，移动附件
-#     #     FileUtil.fileMoveDir(re['id'])
-#     return json.dumps(re)
-#
-#
-# @app.route(apiPrefix + 'getStaffList/<int:job>')
-# def getStaffList(job):
-#     array = DBUtil.getStaffList(job)  # [('1', '1', '1', '1', '1'), ('1', '1', '2', '3', '4'), ...] 二维数组
-#     jsonStaffs = DBUtil.getStaffsFromData(array)
-#     # print("jsonStaffs:", jsonStaffs)
-#     return json.dumps(jsonStaffs)
-#
-#
-# @app.route(apiPrefix + 'deleteStaff/<int:id>')
-# def deleteStaff(id):
-#     # return str(id)+"hi"
-#     re = DBUtil.deleteStaff(id)
-#     return re
-#
-#
-# @app.route(apiPrefix + 'searchStaff_3')
-# def searchStaff_3():
-#     data = request.args.get('where')
-#     print('searchStaff_3:', data)
-#     where = json.loads(data)
-#     array = DBUtil.searchStaff_3(where)
-#     jsonStaffs = DBUtil.getStaffsFromData_3(array)
-#     re = json.dumps(jsonStaffs)
-#     return re
-#
-#
-# ########## 管理员接口
-#
-# @app.route(apiPrefix + 'checkPassword', methods=['POST'])
-# def checkPassword():
-#     data = request.get_data(as_text=True)
-#     re = DBUtil.myCheck(data)
-#     return json.dumps(re)
-#
-#
-# @app.route(apiPrefix + 'gotoAdmin')  # 进入管理员状态
-# def gotoAdmin(data):
-#     pass
-#
-#
-# @app.route(apiPrefix + 'export_to_file')  # 导出到文件
-# def export_to_file():
-#     array = DBUtil.getStaffList(0)  # [('1', '1', '1', '1', '1'), ('1', '1', '2', '3', '4'), ...] 二维数组
-#     re = Data2File.saveToFile(array)
-#     return json.dumps(re)
 
 
 if __name__ == "__main__":

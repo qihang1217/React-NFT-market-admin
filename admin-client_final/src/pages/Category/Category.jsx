@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Button, Card, Form, Icon, Input, message, Modal, Table} from 'antd'
 
-import {reqAddCategory, reqCategories, reqUpdateCategory} from '../../api'
+import {reqAddCategory, reqCategories, reqUpdateCategory} from '../../api/API'
 import LinkButton from '../../components/Link_Button/Link_Button'
 import {CATEGORY_PAGE_SIZE} from "../../Utils/Constants";
 
@@ -35,7 +35,9 @@ export default class Category extends Component {
                         console.log(category)
                         this.category = category // 保存当前分类, 其它地方都可以读取到
                         this.setState({showStatus: 2})
-                    }}>修改分类名称</LinkButton>
+                    }}>
+                        修改分类名称
+                    </LinkButton>
             },
         ]
     }
@@ -46,7 +48,6 @@ export default class Category extends Component {
     getCategorys = async () => {
         // 显示loading
         this.setState({loading: true})
-        // 发异步ajax请求
         const result = await reqCategories()
         // 隐藏loading
         this.setState({loading: false})
@@ -108,13 +109,11 @@ export default class Category extends Component {
 
 
     componentWillMount() {
-
         this.initColumns()
     }
 
     componentDidMount() {
         this.getCategorys()
-
     }
 
     render() {

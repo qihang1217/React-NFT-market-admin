@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {Button, Card, Input, message, Select, Table} from 'antd'
 import throttle from 'lodash/throttle'
 
-import {reqProducts, reqSearchProducts, reqUpdateStatus} from '../../api'
+import {reqProducts, reqSearchProducts, reqUpdateStatus} from '../../api/API'
 import LinkButton from '../../components/Link_Button/Link_Button'
 import {PRODUCT_PAGE_SIZE} from '../../Utils/Constants'
 import memoryUtils from '../../Utils/memoryUtils';

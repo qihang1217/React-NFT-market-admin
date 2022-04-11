@@ -7,7 +7,7 @@ import Add_Form from './Add_Form'
 import Auth_Form from './Auth_Form'
 import {formateDate} from '../../Utils/dateUtils'
 import memoryUtils from '../../Utils/memoryUtils'
-import {reqAddRole, reqRoles, reqUpdateRole} from '../../api'
+import {reqAddRole, reqRoles, reqUpdateRole} from '../../api/API'
 
 /*
 角色路由

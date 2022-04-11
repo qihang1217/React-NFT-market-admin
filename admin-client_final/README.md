@@ -41,7 +41,7 @@
     components: 非路由组件
     pages: 路由组件
     App.js: 应用的根组件
-    index.js: 入口js
+    API.js: 入口js
     
 ## 5 引入antd
     下载antd的包
@@ -133,7 +133,7 @@
         b. 请求成功的结果不再是response, 而是reponse.data: 使用响应拦截器成功的回调返回response.data
         c. 内部统一处理请求异常: 在响应拦截失败的回调中返回pending状态的promise, 中断promise链
 
-    2). 接口请求函数模块: api/index.js
+    2). 接口请求函数模块: api/API.js
         根据接口文档编写(一定要具备这个能力)
         接口请求函数: 调用ajax模块发请求, 返回值promise对象
 

@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Button, Card, Form, Icon, Input, message, Select} from 'antd'
 
-import {reqAddUpdateProduct, reqCategories} from '../../api'
+import {reqAddUpdateProduct, reqCategories} from '../../api/API'
 import Pictures_Wall from './Pictures_Wall'
 import LinkButton from '../../components/Link_Button/Link_Button'
 import memoryUtils from '../../Utils/memoryUtils'

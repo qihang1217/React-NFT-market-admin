@@ -6,10 +6,8 @@ import {LockOutlined, UserOutlined} from '@ant-design/icons';
 import logo from '../../assets/images/logo.png'
 import './Login.less'
 import storageUtils from '../../Utils/storageUtils'
-import HttpUtil from "../../Utils/HttpUtil";
-import ApiUtil from "../../Utils/ApiUtil";
 import memoryUtils from "../../Utils/memoryUtils";
-import {reqLogin} from "../../api";
+import {reqLogin} from "../../api/API";
 
 class Login extends Component {
     constructor(props) {
@@ -36,9 +34,9 @@ class Login extends Component {
             storageUtils.saveUser(user)
             //页面跳转
             window.location.href='/'
-        } else if (response.message === '用户不存在') {
+        } else if (response.status===-1 &&response.message === '用户不存在') {
             message.error('账号或密码错误,请稍后重试~');
-        } else if (response.message === '验证失败') {
+        } else if (response.status===-1 &&response.message === '验证失败') {
             message.error('账号或密码错误,请稍后重试~');
         } else {
             message.error('登陆错误,请稍后重试~');

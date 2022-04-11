@@ -1,14 +1,10 @@
-import React, { Component } from 'react'
-import {
-  Card,
-  Icon,
-  List
-} from 'antd'
+import React, {Component} from 'react'
+import {Card, Icon, List} from 'antd'
 
 import LinkButton from '../../components/Link_Button/Link_Button'
 import memoryUtils from '../../Utils/memoryUtils'
-import { BASE_IMG } from '../../Utils/Constants'
-import {reqCategory, reqProduct} from '../../api'
+import {BASE_IMG} from '../../Utils/Constants'
+import {reqCategory, reqProduct} from '../../api/API'
 
 const Item = List.Item
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from "prop-types"
-import { Upload, Icon, Modal, message } from 'antd'
-import {reqDeleteImg} from '../../api'
+import {Icon, message, Modal, Upload} from 'antd'
+import {reqDeleteImg} from '../../api/API'
 import {BASE_IMG} from '../../Utils/Constants'
 
 function getBase64(file) {
