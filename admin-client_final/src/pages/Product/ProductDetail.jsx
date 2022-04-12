@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
-import {Card, Icon, List} from 'antd'
+import {Card, List} from 'antd'
+import {LeftOutlined} from '@ant-design/icons';
 
 import LinkButton from '../../components/Link_Button/Link_Button'
 import memoryUtils from '../../Utils/memoryUtils'
@@ -55,14 +56,17 @@ export default class ProductDetail extends Component {
 		
 	}
 	
-	componentDidMount() {
+	async initProduct() {
 		let product = this.state.product
 		if (product.product_id) { // 如果NFT有数据, 获取对应的分类
-			this.getCategory(product.category_id)
+			await this.getCategory(product.category_id)
+			// console.log(product)
 		} else { // 如果当前product状态没有数据, 根据id参数中请求获取NFT并更新
 			const id = this.props.match.params.id
-			const result = reqProduct(id)
+			const result = await reqProduct(id)
+			// console.log(result)
 			if (result.status === 0) {
+				// console.log(result)
 				product = result.data
 				this.setState({
 					product
@@ -75,6 +79,10 @@ export default class ProductDetail extends Component {
 		}
 	}
 	
+	componentDidMount() {
+		this.initProduct()
+	}
+	
 	render() {
 		const {categoryName} = this.state
 		const product = this.state.product
@@ -83,7 +91,7 @@ export default class ProductDetail extends Component {
 		const title = (
 			<span>
 		        <LinkButton onClick={() => this.props.history.goBack()}>
-		          <Icon type="arrow-left"/>
+		          <LeftOutlined/>
 		        </LinkButton>
 		        <span>NFT详情</span>
 			</span>

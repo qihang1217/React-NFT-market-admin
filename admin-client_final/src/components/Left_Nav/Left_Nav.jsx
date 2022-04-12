@@ -1,14 +1,13 @@
-import React, { Component } from 'react'
-import { Link, withRouter } from 'react-router-dom'
-import { Menu, Icon } from 'antd'
+import React, {Component} from 'react'
+import {Link, withRouter} from 'react-router-dom'
+import {Icon, Menu} from 'antd'
 
 import menuList from '../../config/menuConfig'
 import logo from '../../assets/images/logo.png'
 import './Left_Nav.less'
-import memoryUtils from '../../Utils/memoryUtils';
 import storageUtils from "../../Utils/storageUtils";
 
-const { SubMenu } = Menu
+const {SubMenu} = Menu
 
 /* 
 左侧导航组件
@@ -159,7 +158,7 @@ class Left_Nav extends Component {
       <div className="left-nav">
         <Link className="left-nav-link" to="/home">
           <img src={logo} alt="logo"/>
-          <h1>硅谷后台</h1>
+          <h1>NFT后台</h1>
         </Link>
 
         {/* 

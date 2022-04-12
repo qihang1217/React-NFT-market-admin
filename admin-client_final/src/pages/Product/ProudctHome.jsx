@@ -83,7 +83,7 @@ export default class ProductHome extends Component {
                             onClick={() => {
                                 // 在内存中保存product
                                 memoryUtils.product = product
-                                this.props.history.push('/Product/detail/' + product.product_id)
+                                this.props.history.push('/product/detail/' + product.product_id)
                             }}
                         >
                           详情
