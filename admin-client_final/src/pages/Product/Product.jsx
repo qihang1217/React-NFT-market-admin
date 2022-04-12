@@ -1,16 +1,12 @@
-import React, { Component } from 'react'
-import {
-  Switch,
-  Route,
-  Redirect
-} from 'react-router-dom'
+import React, {Component} from 'react'
+import {Redirect, Route, Switch} from 'react-router-dom'
 import './Product.less'
 
 import ProductHome from './ProudctHome'
 import ProductDetail from './ProductDetail'
 
 /**
- * 商品管理
+ * NFT管理
  */
 export default class Product extends Component {
 

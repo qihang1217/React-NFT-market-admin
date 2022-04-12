@@ -211,10 +211,17 @@ def get_products():
 
 def search_products(search_type, search_name):
     try:
-        if search_type == 'productName':
+        if search_type == 'productStatus':
+            if search_name=='通过':
+                search_name=1
+            elif search_name=='不通过':
+                search_name = 0
+            return class_to_dict(
+                Products.query.filter(Products.pass_status==search_name).all()), 0
+        elif search_type == 'productName':
             return class_to_dict(
                 Products.query.filter(Products.product_name.contains(search_name)).all()), 0
-        if search_type == 'productDesc':
+        elif search_type == 'productDesc':
             return class_to_dict(Products.query.filter(Products.description.contains(search_name)).all()), 0
     except Exception as e:
         print(repr(e))
