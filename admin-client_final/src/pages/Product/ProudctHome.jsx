@@ -33,6 +33,32 @@ export default class ProductHome extends Component {
 		}
 	}, 2000)
 	
+	/*
+	异步获取指定页码NFT分页(可能带搜索)列表显示
+	*/
+	getProducts = async (pageNum) => {
+		// 保存当前请求的页码
+		this.pageNum = pageNum
+		const {searchName, searchType} = this.state
+		let result
+		// 发请求获取数据
+		if (!this.isSearch) {
+			result = await reqProducts(pageNum, PRODUCT_PAGE_SIZE)
+		} else {
+			result = await reqSearchProducts({pageNum, pageSize: PRODUCT_PAGE_SIZE, searchName, searchType})
+		}
+		
+		if (result.status === 0) {
+			// 取出数据
+			const {total, list} = result.data
+			// 更新状态
+			this.setState({
+				products: list,
+				total
+			})
+		}
+	}
+	
 	initColumns = () => {
 		this.columns = [
 			{
@@ -60,7 +86,7 @@ export default class ProductHome extends Component {
 					}
 					return (
 						<span>
-                            <span style={{marginRight:10}}>{text}</span>
+                            <span style={{marginRight: 10}}>{text}</span>
                         </span>
 					)
 				}
@@ -103,32 +129,6 @@ export default class ProductHome extends Component {
 				)
 			},
 		]
-	}
-	
-	/*
-	异步获取指定页码NFT分页(可能带搜索)列表显示
-	*/
-	getProducts = async (pageNum) => {
-		// 保存当前请求的页码
-		this.pageNum = pageNum
-		const {searchName, searchType} = this.state
-		let result
-		// 发请求获取数据
-		if (!this.isSearch) {
-			result = await reqProducts(pageNum, PRODUCT_PAGE_SIZE)
-		} else {
-			result = await reqSearchProducts({pageNum, pageSize: PRODUCT_PAGE_SIZE, searchName, searchType})
-		}
-		
-		if (result.status === 0) {
-			// 取出数据
-			const {total, list} = result.data
-			// 更新状态
-			this.setState({
-				products: list,
-				total
-			})
-		}
 	}
 	
 	componentWillMount() {

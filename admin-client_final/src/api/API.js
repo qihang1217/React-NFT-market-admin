@@ -10,51 +10,51 @@ const BASE = ''
 
 // 请求登陆
 export const reqLogin = (e) => {
-    return HttpUtil.post(ApiUtil.API_LOGIN, e)
+	return HttpUtil.post(ApiUtil.API_LOGIN, e)
 }
 
 //请求分类列表
 export const reqCategories = () => {
-    return HttpUtil.get(ApiUtil.API_CATEGORY_LIST)
+	return HttpUtil.get(ApiUtil.API_CATEGORY_LIST)
 }
 
 
 // 添加分类
 export const reqAddCategory = (categoryName) => {
-    return HttpUtil.post(ApiUtil.API_ADD_CATEGORY, {categoryName})
+	return HttpUtil.post(ApiUtil.API_ADD_CATEGORY, {categoryName})
 }
 
 // 修改分类
 export const reqUpdateCategory = ({categoryId, categoryName}) => {
-    return HttpUtil.post(ApiUtil.API_UPDATE_CATEGORY, {categoryId, categoryName})
+	return HttpUtil.post(ApiUtil.API_UPDATE_CATEGORY, {categoryId, categoryName})
 }
 
 
 // 根据分类id获取分类
 export const reqCategory = (categoryId) => {
-    return HttpUtil.get(ApiUtil.API_CATEGORY_BY_ID + `?categoryId=${categoryId}`)
+	return HttpUtil.get(ApiUtil.API_CATEGORY_BY_ID + `?categoryId=${categoryId}`)
 }
 
 /* 获取NFT分页列表 */
 export const reqProducts = (pageNum, pageSize) => {
-    return HttpUtil.get(ApiUtil.API_PRODUCT_LIST + `?pageNum=${pageNum}&pageSize=${pageSize}`)
+	return HttpUtil.get(ApiUtil.API_PRODUCT_LIST + `?pageNum=${pageNum}&pageSize=${pageSize}`)
 }
 
 
 /* 根据Name/desc搜索NFT分页列表 */
-export const reqSearchProducts = ({pageNum,pageSize,searchName,searchType})=> {
-    return HttpUtil.get(ApiUtil.API_SEARCH_PRODUCT_LIST + `?pageNum=${pageNum}&pageSize=${pageSize}&${searchType}=${searchName}`)
+export const reqSearchProducts = ({pageNum, pageSize, searchName, searchType}) => {
+	return HttpUtil.get(ApiUtil.API_SEARCH_PRODUCT_LIST + `?pageNum=${pageNum}&pageSize=${pageSize}&${searchType}=${searchName}`)
 }
 
 
 /* 根据NFT ID获取NFT */
 export const reqProduct = (productId) => {
-    return HttpUtil.get(ApiUtil.API_PRODUCT_BY_ID + `?productId=${productId}`)
+	return HttpUtil.get(ApiUtil.API_PRODUCT_BY_ID + `?productId=${productId}`)
 }
 
 /* 对NFT进行通过/不通过处理 */
 export const reqUpdateStatus = (product_id, pass_status) => {
-    return HttpUtil.post(ApiUtil.API_PRODUCT_UPDATE_STATUS, {product_id, pass_status})
+	return HttpUtil.post(ApiUtil.API_PRODUCT_UPDATE_STATUS, {product_id, pass_status})
 }
 
 
@@ -63,15 +63,15 @@ export const reqDeleteImg = (name) => ajax.post(BASE + '/manage/img/delete', {na
 
 /* 添加/修改NFT */
 export const reqAddUpdateProduct = (product) => ajax.post(
-    BASE + '/manage/Product/' + (product._id ? 'update' : 'add'),
-    product
+	BASE + '/manage/Product/' + (product._id ? 'update' : 'add'),
+	product
 )
 
 // 获取所有角色的列表
 export const reqRoles = () => ajax(BASE + '/manage/Role/list')
 // 添加角色
 export const reqAddRole = (roleName) => ajax.post(BASE + '/manage/Role/add', {
-    roleName
+	roleName
 })
 // 更新角色
 export const reqUpdateRole = (role) => ajax.post(BASE + '/manage/Role/update', role)
@@ -80,7 +80,7 @@ export const reqUpdateRole = (role) => ajax.post(BASE + '/manage/Role/update', r
 export const reqUsers = () => ajax(BASE + '/manage/User/list')
 // 删除指定用户
 export const reqDeleteUser = (userId) => ajax.post(BASE + '/manage/User/delete', {
-    userId
+	userId
 })
 // 添加/更新用户
 export const reqAddOrUpdateUser = (user) => ajax.post(BASE + '/manage/User/' + (user._id ? 'update' : 'add'), user)

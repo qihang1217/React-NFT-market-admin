@@ -3,6 +3,6 @@ import {Button} from 'antd';
 
 import './Link_Button.less'
 
-export default function LinkButton (props) {
-  return <Button type="link" {...props}/>
+export default function LinkButton(props) {
+	return <Button type="link" {...props}/>
 }
