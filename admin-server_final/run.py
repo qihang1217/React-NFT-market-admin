@@ -109,7 +109,7 @@ def get_product_list():
 @app.route(apiPrefix + '/manage/product/search', methods=['GET'], strict_slashes=False)
 def search_product_list():
     args = request.args.to_dict()
-    print(args)
+    # print(args)
     page_num = int(args.get('pageNum'))
     page_size = int(args.get('pageSize'))
     search_name = ''

@@ -92,8 +92,8 @@ class Products(db.Model, MixToJson):
     price = db.Column(db.Integer)
     pass_status = db.Column(db.Boolean)
     # 防止文件名可能的重复
-    file_url = db.Column(db.String(100), unique=True)
-    file_type = db.Column(db.String(10))
+    file_url = db.Column(db.String(30), unique=True)
+    file_type = db.Column(db.String(100))
     description = db.Column(db.Text)
     category_id = db.Column(db.Integer, db.ForeignKey('Categories.category_id'))
 

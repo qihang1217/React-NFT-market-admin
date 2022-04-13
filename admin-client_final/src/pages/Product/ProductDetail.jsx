@@ -6,6 +6,7 @@ import LinkButton from '../../components/Link_Button/Link_Button'
 import memoryUtils from '../../Utils/memoryUtils'
 import {reqCategory, reqProduct} from '../../api/API'
 import ApiUtil from "../../Utils/ApiUtil";
+import FileViewer from 'react-file-viewer';
 
 const Item = List.Item
 
@@ -31,12 +32,17 @@ export default class ProductDetail extends Component {
 	
 	renderFile = (product) => {
 		console.log(product)
+		//文件名
 		const filename = product.file_url
+		//文件类型
 		const filetype = product.file_type
+		//文件扩展名
+		const ext = filename.substring(filename.lastIndexOf('.') + 1);
+		//文件远程地址
 		const src = ApiUtil.API_FILE_URL + filename
 		if (/^image\/\S+$/.test(filetype)) {
 			this.setState({
-				previewContent: <img src={src} alt='上传的图片' className='file'/>
+				previewContent: <img src={src} alt={filename} className='file'/>
 			})
 		} else if (/^video\/\S+$/.test(filetype)) {
 			this.setState({
@@ -51,7 +57,22 @@ export default class ProductDetail extends Component {
 					</audio>
 			})
 		} else if (/^text\/\S+$/.test(filetype)) {
-		
+			//	实际是前台存储的docx和pdf格式(前台将其类型规定为text)
+			this.setState({
+				previewContent:
+					<FileViewer
+						fileType={ext}
+						filePath={src}
+					/>
+			})
+		} else {
+			this.setState({
+				previewContent:
+					<FileViewer
+						fileType={ext}
+						filePath={src}
+					/>
+			})
 		}
 		
 	}
