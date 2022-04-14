@@ -17,8 +17,9 @@ export default class ProductHome extends Component {
 		loading: false,
 		products: [], // NFT列表
 		total: 0, // NFT的总数量
-		searchType: 'productStatus', // 默认按状态
+		searchType: 'examineStatus', // 默认按状态
 		searchName: '', // 搜索的关键字
+		isClickable: true,
 	}
 	
 	updateStatus = throttle(async (product_id, pass_status) => {
@@ -59,11 +60,19 @@ export default class ProductHome extends Component {
 		}
 	}
 	
+	setStateAsync(state) {
+		return new Promise((resolve) => {
+			this.setState(state, resolve)
+		});
+	}
+	
 	initColumns = () => {
 		this.columns = [
 			{
 				title: 'NFT名称',
-				dataIndex: 'product_name'
+				dataIndex: 'product_name',
+				sorter: (a, b) => a.product_name.length - b.product_name.length,
+				defaultSortOrder: 'descend',
 			},
 			{
 				title: '描述',
@@ -73,10 +82,12 @@ export default class ProductHome extends Component {
 				title: '价格',
 				width: 100,
 				dataIndex: 'price',
-				render: (price) => price + 'ETH'
+				defaultSortOrder: 'descend',
+				sorter: (a, b) => a.price - b.price,
+				render: (price) => price + 'ETH',
 			},
 			{
-				title: '状态',
+				title: '通过状态',
 				width: 100,
 				// dataIndex: 'pass_status',
 				render: ({pass_status}) => {
@@ -92,22 +103,41 @@ export default class ProductHome extends Component {
 				}
 			},
 			{
-				title: '操作',
+				title: '审核状态',
 				width: 100,
-				// dataIndex: 'pass_status',
-				render: ({product_id, pass_status}) => {
-					let btnText = '通过'
-					if (pass_status === true) {
-						btnText = '不通过'
+				render: ({examine_status}) => {
+					let text = '未审核'
+					if (examine_status === true) {
+						text = '已审核'
 					}
 					return (
 						<span>
-                            <Button type="primary" onClick={() => {
-	                            this.updateStatus(product_id, pass_status)
-                            }}>
-                                  {btnText}
-                            </Button>
+                            <span style={{marginRight: 10}}>{text}</span>
                         </span>
+					)
+				}
+			},
+			{
+				title: '操作',
+				width: 100,
+				// dataIndex: 'pass_status',
+				render: ({product_id, pass_status, examine_status}) => {
+					//已审核则无法再次审核
+					let buttonText = ''
+					if (pass_status) {
+						buttonText = '不通过'
+					} else {
+						buttonText = '通过'
+					}
+					return (
+						<>
+							<Button disabled={!this.state.isClickable || examine_status} type="primary" onClick={() => {
+								this.setState({isClickable: false})
+								this.updateStatus(product_id, pass_status)
+							}}>
+								{buttonText}
+							</Button>
+						</>
 					)
 				}
 			},
@@ -151,7 +181,8 @@ export default class ProductHome extends Component {
 	                value={searchType}
 	                onChange={(value) => this.setState({searchType: value})}
                 >
-	                <Option value="productStatus">按状态搜索</Option>
+	                <Option value="examineStatus">按审核状态搜索</Option>
+	                <Option value="productStatus">按通过状态搜索</Option>
                     <Option value="productName">按名称搜索</Option>
                     <Option value="productDesc">按描述搜索</Option>
                 </Select>

@@ -90,6 +90,8 @@ def login_user():
 
 
 ########## NFT分页列表接口
+
+# 获取产品列表
 @app.route(apiPrefix + 'manage/product/list', methods=['GET'], strict_slashes=False)
 def get_product_list():
     args = request.args.to_dict()
@@ -106,6 +108,7 @@ def get_product_list():
     return jsonify(response)
 
 
+# 产品列表进行查询
 @app.route(apiPrefix + '/manage/product/search', methods=['GET'], strict_slashes=False)
 def search_product_list():
     args = request.args.to_dict()
@@ -118,6 +121,7 @@ def search_product_list():
         if not item in ['pageSize', 'pageNum']:
             search_type = item
             search_name = args.get(item)
+    print (search_type,search_name)
     res, status = DBUtil.search_products(search_type, search_name)
     # 数据总数
     total = len(res)
@@ -131,6 +135,7 @@ def search_product_list():
     return jsonify(response)
 
 
+# nft审核
 @app.route(apiPrefix + '/manage/product/updateStatus', methods=['POST'], strict_slashes=False)
 def update_product_status():
     json_str = request.get_data(as_text=True)
@@ -144,6 +149,7 @@ def update_product_status():
     return jsonify(response)
 
 
+# 获取分类列表
 @app.route(apiPrefix + 'manage/category/list', methods=['GET'], strict_slashes=False)
 def get_category_list():
     res, status = DBUtil.get_categories()
@@ -154,6 +160,7 @@ def get_category_list():
     return jsonify(response)
 
 
+# 添加分类
 @app.route(apiPrefix + '/manage/category/add', methods=['POST'], strict_slashes=False)
 def add_category():
     json_str = request.get_data(as_text=True)
@@ -167,6 +174,7 @@ def add_category():
     return jsonify(response)
 
 
+# 更新分类
 @app.route(apiPrefix + '/manage/category/update', methods=['POST'], strict_slashes=False)
 def update_category():
     json_str = request.get_data(as_text=True)
@@ -180,6 +188,7 @@ def update_category():
     return jsonify(response)
 
 
+# 根据分类id获取分类信息
 @app.route(apiPrefix + '/manage/category/id', methods=['GET'], strict_slashes=False)
 def get_category_by_id():
     args = request.args.to_dict()
@@ -192,6 +201,7 @@ def get_category_by_id():
     return jsonify(response)
 
 
+# 根据产品id获取产品信息
 @app.route(apiPrefix + '/manage/product/id', methods=['GET'], strict_slashes=False)
 def get_product_by_id():
     args = request.args.to_dict()
