@@ -98,6 +98,8 @@ class Products(db.Model, MixToJson):
     examine_status = db.Column(db.Boolean, default=False)
     # 用户有一次重复提交的机会
     usable_chances = db.Column(db.Integer, default=2)
+    # 伪删除状态
+    delete_status = db.Column(db.Boolean, default=False)
     # 防止文件名可能的重复
     file_url = db.Column(db.String(30), unique=True)
     file_type = db.Column(db.String(100))
@@ -208,7 +210,9 @@ def get_own_roles(role_id):
 
 def get_products():
     try:
-        return class_to_dict(Products.query.filter(Products.usable_chances >= 1).all()), 0
+        # 对于查询结果进行筛选,不返回usable_chances为0或已删除的数据
+        return class_to_dict(
+            Products.query.filter(and_(Products.usable_chances >= 1, Products.delete_status == False)).all()), 0
     except Exception as e:
         print(repr(e))
         return [{}], -1
@@ -219,7 +223,7 @@ def get_products():
 def search_products(search_type, search_name):
     try:
         if search_name != '':
-            # 对于查询结果进行筛选,不返回usable_chances为0的数据(正常情况下都不再返回该类数据,伪删除)
+            # 对于查询结果进行筛选,不返回usable_chances为0或已删除的数据
             if search_type == 'productStatus':
                 if search_name == '通过':
                     search_name = 1
@@ -227,7 +231,8 @@ def search_products(search_type, search_name):
                     search_name = 0
                 return class_to_dict(
                     Products.query.filter(
-                        and_(Products.pass_status == search_name, Products.usable_chances >= 1)).all()), 0
+                        and_(Products.pass_status == search_name, Products.usable_chances >= 1,
+                             Products.delete_status == False)).all()), 0
             elif search_type == 'examineStatus':
                 if search_name == '已审核':
                     search_name = 1
@@ -235,17 +240,22 @@ def search_products(search_type, search_name):
                     search_name = 0
                 return class_to_dict(
                     Products.query.filter(
-                        and_(Products.examine_status == search_name, Products.usable_chances >= 1)).all()), 0
+                        and_(Products.examine_status == search_name, Products.usable_chances >= 1,
+                             Products.delete_status == False)).all()), 0
             elif search_type == 'productName':
                 return class_to_dict(
                     Products.query.filter(
-                        and_(Products.product_name.contains(search_name), Products.usable_chances >= 1)).all()), 0
+                        and_(Products.product_name.contains(search_name), Products.usable_chances >= 1,
+                             Products.delete_status == False)).all()), 0
             elif search_type == 'productDesc':
                 return class_to_dict(Products.query.filter(
-                    and_(Products.description.contains(search_name), Products.usable_chances >= 1)).all()), 0
+                    and_(Products.description.contains(search_name), Products.usable_chances >= 1,
+                         Products.delete_status == False)).all()), 0
         else:
             # 搜索词为空时不进行筛选,返回整个结果
-            return class_to_dict(Products.query.all()), 0
+            # 对于查询结果进行筛选,不返回usable_chances为0或已删除的数据
+            return class_to_dict(
+                Products.query.filter(and_(Products.usable_chances >= 1, Products.delete_status == False)).all()), 0
     except Exception as e:
         print(repr(e))
         return [{}], -1
@@ -255,11 +265,10 @@ def search_products(search_type, search_name):
 
 def update_product_status(product_id, pass_status):
     try:
-        Products.query.filter(Products.product_id == product_id).update(
-            {'pass_status': pass_status, 'examine_status': True})
         product = Products.query.filter(Products.product_id == product_id)
-        # 当nft可审核次数大于0
-        if product.usable_chances >= 1 and product.examine_status==0:
+        if product.usable_chances >= 1 and product.examine_status == 0 and product.delete_status == 0:
+            # 当nft可审核次数大于0,且未审核,未删除,可更新其状态
+            product.update({'pass_status': pass_status, 'examine_status': True})
             product.usable_chances = product.usable_chances - 1
         else:
             # 当nft可审核次数为0时,不可再次修改其状态
