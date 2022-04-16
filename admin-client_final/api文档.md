@@ -543,7 +543,7 @@
 
 ## 15. 对商品进行上架/下架处理
 ### 请求URL：
-    http://localhost:5000/manage/product/updateStatus
+    http://localhost:5000/manage/product/updatePassStatus
 
 ### 请求方式：
     POST

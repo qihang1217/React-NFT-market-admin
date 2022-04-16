@@ -100,6 +100,8 @@ class Products(db.Model, MixToJson):
     usable_chances = db.Column(db.Integer, default=2)
     # 伪删除状态
     delete_status = db.Column(db.Boolean, default=False)
+    # 铸造状态
+    mint_status = db.Column(db.Boolean, default=False)
     # 防止文件名可能的重复
     file_url = db.Column(db.String(30), unique=True)
     file_type = db.Column(db.String(100))
@@ -265,10 +267,12 @@ def search_products(search_type, search_name):
 
 def update_product_status(product_id, pass_status):
     try:
-        product = Products.query.filter(Products.product_id == product_id)
+        product = Products.query.filter(Products.product_id == product_id).first()
+        print(product)
         if product.usable_chances >= 1 and product.examine_status == 0 and product.delete_status == 0:
             # 当nft可审核次数大于0,且未审核,未删除,可更新其状态
-            product.update({'pass_status': pass_status, 'examine_status': True})
+            product.pass_status = pass_status
+            product.examine_status = True
             product.usable_chances = product.usable_chances - 1
         else:
             # 当nft可审核次数为0时,不可再次修改其状态

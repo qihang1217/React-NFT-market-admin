@@ -22,11 +22,19 @@ export default class ProductHome extends Component {
 		isClickable: true,
 	}
 	
-	updateStatus = throttle(async (product_id, pass_status) => {
-		// 计算更新后的值
-		pass_status = pass_status === false;
+	updatePassStatus = throttle(async (product_id, pass_status) => {
 		// 请求更新
-		const result = await reqUpdateStatus(product_id, pass_status)
+		const result = await reqUpdateStatus(product_id, true)
+		if (result.status === 0) {
+			message.success('更新NFT状态成功!')
+			// 获取当前页显示
+			await this.getProducts(this.pageNum)
+		}
+	}, 2000)
+	
+	updateDenyStatus = throttle(async (product_id, pass_status) => {
+		// 请求更新
+		const result = await reqUpdateStatus(product_id, false)
 		if (result.status === 0) {
 			message.success('更新NFT状态成功!')
 			// 获取当前页显示
@@ -73,22 +81,26 @@ export default class ProductHome extends Component {
 				dataIndex: 'product_name',
 				sorter: (a, b) => a.product_name.length - b.product_name.length,
 				defaultSortOrder: 'descend',
+				align: 'center',
 			},
 			{
 				title: '描述',
-				dataIndex: 'description'
+				dataIndex: 'description',
+				align: 'center',
 			},
 			{
 				title: '价格',
 				width: 100,
 				dataIndex: 'price',
 				defaultSortOrder: 'descend',
+				align: 'center',
 				sorter: (a, b) => a.price - b.price,
 				render: (price) => price + 'ETH',
 			},
 			{
 				title: '通过状态',
 				width: 100,
+				align: 'center',
 				// dataIndex: 'pass_status',
 				render: ({pass_status}) => {
 					let text = '不通过'
@@ -105,6 +117,7 @@ export default class ProductHome extends Component {
 			{
 				title: '审核状态',
 				width: 100,
+				align: 'center',
 				render: ({examine_status}) => {
 					let text = '未审核'
 					if (examine_status === true) {
@@ -119,23 +132,33 @@ export default class ProductHome extends Component {
 			},
 			{
 				title: '操作',
-				width: 100,
+				width: 190,
+				align: 'center',
 				// dataIndex: 'pass_status',
 				render: ({product_id, pass_status, examine_status}) => {
 					//已审核则无法再次审核
-					let buttonText = ''
-					if (pass_status) {
-						buttonText = '不通过'
-					} else {
-						buttonText = '通过'
-					}
 					return (
 						<>
-							<Button disabled={!this.state.isClickable || examine_status} type="primary" onClick={() => {
-								this.setState({isClickable: false})
-								this.updateStatus(product_id, pass_status)
-							}}>
-								{buttonText}
+							<Button
+								type="primary"
+								style={{marginRight: 15}}
+								disabled={!this.state.isClickable || examine_status}
+								onClick={() => {
+									this.setState({isClickable: false})
+									this.updatePassStatus(product_id, pass_status)
+								}}
+							>
+								通过
+							</Button>
+							<Button
+								type="primary"
+								disabled={!this.state.isClickable || examine_status}
+								onClick={() => {
+									this.setState({isClickable: false})
+									this.updateDenyStatus(product_id, pass_status)
+								}}
+							>
+								不通过
 							</Button>
 						</>
 					)
@@ -144,6 +167,7 @@ export default class ProductHome extends Component {
 			{
 				title: '详情',
 				width: 100,
+				align: 'center',
 				render: (product) => (
 					<span>
                         <LinkButton

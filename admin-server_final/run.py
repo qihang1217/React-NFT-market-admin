@@ -136,7 +136,7 @@ def search_product_list():
 
 
 # nft审核
-@app.route(apiPrefix + '/manage/product/updateStatus', methods=['POST'], strict_slashes=False)
+@app.route(apiPrefix + '/manage/product/updatePassStatus', methods=['POST'], strict_slashes=False)
 def update_product_status():
     json_str = request.get_data(as_text=True)
     req_data = json.loads(json_str)
