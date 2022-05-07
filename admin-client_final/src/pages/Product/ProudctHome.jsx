@@ -19,7 +19,6 @@ export default class ProductHome extends Component {
 		total: 0, // NFT的总数量
 		searchType: 'examineStatus', // 默认按状态
 		searchName: '', // 搜索的关键字
-		isClickable: true,
 	}
 	
 	updatePassStatus = throttle(async (product_id, pass_status) => {
@@ -101,7 +100,7 @@ export default class ProductHome extends Component {
 				title: '通过状态',
 				width: 120,
 				align: 'center',
-				sorter: (a, b) => a.pass_status.length - b.pass_status.length,
+				sorter: (a, b) => a.pass_status - b.pass_status,
 				// dataIndex: 'pass_status',
 				render: ({pass_status}) => {
 					let text = '不通过'
@@ -119,7 +118,7 @@ export default class ProductHome extends Component {
 				title: '审核状态',
 				width: 120,
 				align: 'center',
-				sorter: (a, b) => a.examine_status.length - b.examine_status.length,
+				sorter: (a, b) => a.examine_status - b.examine_status,
 				render: ({examine_status}) => {
 					let text = '未审核'
 					if (examine_status === true) {
@@ -144,9 +143,8 @@ export default class ProductHome extends Component {
 							<Button
 								type="primary"
 								style={{marginRight: 15}}
-								disabled={!this.state.isClickable || examine_status}
+								disabled={examine_status}
 								onClick={() => {
-									this.setState({isClickable: false})
 									this.updatePassStatus(product_id, pass_status)
 								}}
 							>
@@ -154,9 +152,8 @@ export default class ProductHome extends Component {
 							</Button>
 							<Button
 								type="primary"
-								disabled={!this.state.isClickable || examine_status}
+								disabled={examine_status}
 								onClick={() => {
-									this.setState({isClickable: false})
 									this.updateDenyStatus(product_id, pass_status)
 								}}
 							>
