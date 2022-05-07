@@ -99,8 +99,9 @@ export default class ProductHome extends Component {
 			},
 			{
 				title: '通过状态',
-				width: 100,
+				width: 120,
 				align: 'center',
+				sorter: (a, b) => a.pass_status.length - b.pass_status.length,
 				// dataIndex: 'pass_status',
 				render: ({pass_status}) => {
 					let text = '不通过'
@@ -116,8 +117,9 @@ export default class ProductHome extends Component {
 			},
 			{
 				title: '审核状态',
-				width: 100,
+				width: 120,
 				align: 'center',
+				sorter: (a, b) => a.examine_status.length - b.examine_status.length,
 				render: ({examine_status}) => {
 					let text = '未审核'
 					if (examine_status === true) {

@@ -8,7 +8,7 @@ export default class ApiUtil {
     
     static API_LOGIN = ApiUtil.URL_INTERFACE + '/login';
     static API_PRODUCT_LIST = ApiUtil.URL_INTERFACE + '/manage/product/list';
-    static API_PRODUCT_UPDATE_STATUS = ApiUtil.URL_INTERFACE + '/manage/product/updateStatus';
+    static API_PRODUCT_UPDATE_STATUS = ApiUtil.URL_INTERFACE + '/manage/product/updatePassStatus';
     static API_SEARCH_PRODUCT_LIST = ApiUtil.URL_INTERFACE + '/manage/product/search';
     static API_CATEGORY_LIST = ApiUtil.URL_INTERFACE + '/manage/category/list';
     static API_ADD_CATEGORY = ApiUtil.URL_INTERFACE + '/manage/category/add';

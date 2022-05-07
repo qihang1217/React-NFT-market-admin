@@ -7,6 +7,7 @@ import memoryUtils from '../../Utils/memoryUtils'
 import {reqCategory, reqProduct} from '../../api/API'
 import ApiUtil from "../../Utils/ApiUtil";
 import FileViewer from 'react-file-viewer';
+import ModelViewer from "../../components/ModelViewer/ModelViewer";
 
 const Item = List.Item
 
@@ -30,6 +31,34 @@ export default class ProductDetail extends Component {
 		}
 	}
 	
+	setControlsPreview = (item, filename, ext, filetype, src) => {
+		let previewContent = (
+			<FileViewer
+				fileType={ext}
+				filePath={src}
+			/>
+		)
+		if (filetype === 'image') {
+			previewContent = (<img src={src} alt={filename} className='file'/>)
+		} else if (filetype === 'video') {
+			previewContent = (<video src={src} loop preload controls className='file'/>)
+		} else if (filetype === 'audio') {
+			previewContent = (
+				<audio controls preload className='file'>
+					<source src={src}/>
+					<embed src={src}/>
+				</audio>
+			)
+		} else if (filetype === 'model') {
+			previewContent = (
+				<ModelViewer
+					src={src}
+				/>
+			)
+		}
+		return previewContent
+	}
+	
 	renderFile = (product) => {
 		console.log(product)
 		//文件名
@@ -40,41 +69,8 @@ export default class ProductDetail extends Component {
 		const ext = filename.substring(filename.lastIndexOf('.') + 1);
 		//文件远程地址
 		const src = ApiUtil.API_FILE_URL + filename
-		if (/^image\/\S+$/.test(filetype)) {
-			this.setState({
-				previewContent: <img src={src} alt={filename} className='file'/>
-			})
-		} else if (/^video\/\S+$/.test(filetype)) {
-			this.setState({
-				previewContent: <video src={src} loop preload controls className='file'/>
-			})
-		} else if (/^audio\/\S+$/.test(filetype)) {
-			this.setState({
-				previewContent:
-					<audio controls preload className='file'>
-						<source src={src}/>
-						<embed src={src}/>
-					</audio>
-			})
-		} else if (/^text\/\S+$/.test(filetype)) {
-			//	实际是前台存储的docx和pdf格式(前台将其类型规定为text)
-			this.setState({
-				previewContent:
-					<FileViewer
-						fileType={ext}
-						filePath={src}
-					/>
-			})
-		} else {
-			this.setState({
-				previewContent:
-					<FileViewer
-						fileType={ext}
-						filePath={src}
-					/>
-			})
-		}
-		
+		const previewContent = this.setControlsPreview(product, filename, ext, filetype, src)
+		this.setState({previewContent: previewContent})
 	}
 	
 	async initProduct() {
